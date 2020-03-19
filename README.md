@@ -1,12 +1,15 @@
 # Persona-0
-A custom recreation of the classic game SMT II 
+A custom recreation of the classic game SMT II
 
 Fun project-based program for non-profit. 
 All music belong to their respective owners. 
 
 Made by: Ian and Kurt
 
+(Created during high school)
+
 Created in 2016 - VB6
+
 
 ###### Side Note
 To beat singleplayer: Repeatedly click "Mudo" for the first enemy after the tutorial fight. Repeatedly click "Hama" for the second enemy. (Using potions when HP reaches as low as it can)
