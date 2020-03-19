@@ -6,7 +6,7 @@ All music belong to their respective owners.
 
 Made by: Ian and Kurt
 
-Created in 2016 
+Created in 2016 - VB6
 
 ###### Side Note
 To beat the singleplayer: Repeatedly click "Mudo" for the first enemy after the tutorial fight. Repeatedly click "Hama" for the second enemy. (Using potions when HP reaches as low as it can)
