@@ -1,0 +1,106 @@
+Dim numwords As Integer
+Dim words As String
+Dim numhit As Integer
+Dim Skip As Boolean
+
+Private Sub lblNext_Click()
+
+Me.Hide
+frmTutorial.Show
+frmMenu.wmvMenu.URL = ""
+
+End Sub
+
+Private Sub lblSkip_Click()
+
+numhit = numhit + 1
+
+Skip = True
+tmrType1.Enabled = False
+tmrType2.Enabled = False
+tmrType3.Enabled = False
+
+If Skip = True Then
+
+If numhit = 1 Then
+
+lblType1.Caption = "My eyes open, and I find myself awake in a forest...That dream...what was that?..."
+
+ElseIf numhit = 2 Then
+
+lblType2.Caption = "I found myself in a pile of broken twigs. It seems I had fallen from a far place, with no recollection of myself or my past."
+
+ElseIf numhit = 3 Then
+
+lblNext.Visible = True
+
+lblType3.Caption = "Faintly, I hear rustling noises in a nearby patch of grass...I investigate and I find myself in front of a...a snake?"
+lblNext.Visible = True
+
+End If
+
+End If
+
+End Sub
+
+Private Sub tmrType1_Timer()
+
+If Skip = False Then
+
+words = "My eyes open, and I find myself awake in a forest...That dream...what was that?..."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType1.Enabled = False
+    tmrType2.Enabled = True
+    
+End If
+
+End If
+
+
+End Sub
+Private Sub tmrType2_Timer()
+
+If Skip = False Then
+
+words = "I found myself in a pile of broken twigs. It seems I had fallen from a far place, with no recollection of myself or my past."
+numwords = numwords + 1
+
+lblType2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType2.Enabled = False
+    tmrType3.Enabled = True
+    
+End If
+
+End If
+
+End Sub
+Private Sub tmrType3_Timer()
+
+
+words = "Faintly, I hear rustling noises in a nearby patch of grass...I investigate and I find myself in front of a...a snake?"
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType3.Enabled = False
+    lblNext.Visible = True
+    
+End If
+
+End Sub

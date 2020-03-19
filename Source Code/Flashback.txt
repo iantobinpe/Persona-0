@@ -1,0 +1,367 @@
+Dim num As Integer
+Dim words As String
+Dim numwords As Integer
+Dim nexts As Integer
+Private Sub cmdAttack_Click()
+
+tmrMoveHit.Enabled = True
+cmdAttack.Visible = False
+
+nexts = nexts + 1
+
+If nexts = 7 Then
+
+    tmrWords8.Enabled = True
+    
+End If
+
+End Sub
+
+Private Sub imgNext_Click()
+
+nexts = nexts + 1
+imgNext.Visible = False
+
+If nexts = 1 Then
+    
+    tmrWords2.Enabled = True
+    
+ElseIf nexts = 2 Then
+
+    tmrWords3.Enabled = True
+    
+ElseIf nexts = 3 Then
+    
+    tmrWords4.Enabled = True
+    
+ElseIf nexts = 4 Then
+    
+    tmrWords5.Enabled = True
+
+ElseIf nexts = 5 Then
+    
+   
+    tmrTransform.Enabled = True
+    lblTransform.Visible = True
+    'tmrMoveHit2.Enabled = True
+    'imgGui.Picture = imgOther.Picture
+
+ElseIf nexts = 6 Then
+    
+    tmrWords7.Enabled = True
+    cmdAttack.Visible = True
+    cmdAttack.BackColor = vbRed
+
+End If
+
+
+End Sub
+Private Sub tmrBlink_Timer()
+
+lblFlashback.Visible = True
+
+If lblFlashback.Visible = True Then
+    lblFlashback.Visible = False
+ElseIf lblFlashback.Visible = False Then
+    lblFlashback.Visible = True
+    tmrBlink.Enabled = False
+End If
+
+If num = 0 Then
+
+    tmrBlink.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrMove_Timer()
+
+imgMetatron.Top = imgMetatron.Top - 30
+
+If imgMetatron.Top <= 360 Then
+
+    tmrMove.Enabled = False
+    tmrMove2.Enabled = True
+    
+End If
+
+End Sub
+
+Private Sub tmrMove2_Timer()
+
+imgMetatron.Top = imgMetatron.Top + 30
+
+If imgMetatron.Top >= 600 Then
+
+    tmrMove.Enabled = True
+    tmrMove2.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrMoveHit_Timer()
+
+imgMetatron.Left = imgMetatron.Left - 200
+
+If imgMetatron.Left <= 1000 Then
+    
+'    imgMetatron.Picture = imgmetatronHit.Picture
+    tmrMoveHit.Enabled = False
+    tmrMoveHit2.Enabled = True
+    imgMetatron.Left = 1320
+    
+End If
+
+End Sub
+
+Private Sub tmrMoveHit2_Timer()
+
+imgMetatron.Left = imgMetatron.Left + 200
+
+If imgMetatron.Left >= 2300 Then
+
+ imgMetatron.Left = 1320
+tmrMoveHit.Enabled = False
+tmrMoveHit2.Enabled = False
+'imgMetatron.Picture = imgMetatronnormal.Picture
+
+End If
+
+
+End Sub
+
+Private Sub tmrMoveRight_Timer()
+
+'tmrMoveHit.Enabled = False
+'tmrMoveHit2.Enabled = False
+tmrMove.Enabled = False
+tmrMove2.Enabled = False
+imgMetatron.Top = imgMetatron.Top + 200
+
+If imgMetatron.Top >= 3000 Then
+
+    tmrMoveRight.Enabled = False
+    
+End If
+
+
+End Sub
+Private Sub tmrSeal_Timer()
+
+
+imgSeal.Width = imgSeal.Width + 100
+imgSeal.Height = imgSeal.Height + 100
+imgSeal.Left = imgSeal.Left - 50
+imgSeal.Top = imgSeal.Top + 50
+
+If imgSeal.Top >= 2280 Then
+
+    tmrSeal.Enabled = False
+    Me.Hide
+    frmLuciferEndTransition.Show
+    
+End If
+
+
+End Sub
+Private Sub tmrTimetoBlink_Timer()
+
+num = num + 1
+'wmprandom.URL = ""
+
+If num = 3 Then
+    tmrBlink.Enabled = True
+    num = 0
+End If
+
+End Sub
+
+Private Sub tmrTransform_Timer()
+
+lblTransform.Left = lblTransform.Left - 300
+
+If lblTransform.Left <= -2640 Then
+
+    Me.Height = 9690
+    lblTransform.Visible = False
+    imgGui.Picture = imgOther.Picture
+    tmrTransform.Enabled = False
+    tmrWords6.Enabled = True
+    
+End If
+
+End Sub
+
+Private Sub tmrWords_Timer()
+
+lblName.Caption = "Metatron"
+words = "We must guard the gate with our lives...Everyone has gone mad."
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = ""
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrWords2_Timer()
+
+lblName.Caption = "Sandalphon"
+words = "Heaven is falling apart, where is Lucifer?!"
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = ""
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords2.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrWords3_Timer()
+
+lblName.Caption = "Metatron"
+words = "Just when we needed him the most!"
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = 0
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords3.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrWords4_Timer()
+
+lblName.Caption = "Sandalphon"
+words = "Brother, we must leave! We will be next if we dont go now!"
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = ""
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords4.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrWords5_Timer()
+
+
+lblName.Caption = "Metatron"
+words = "Sandalphon, we may be the last angels left, we must not leave our post!"
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = ""
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords5.Enabled = False
+    
+End If
+
+
+End Sub
+Private Sub tmrWords6_Timer()
+
+lblName.Caption = "Lucifer"
+words = "I found you."
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    tmrMoveHit.Enabled = True
+    words = ""
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords6.Enabled = False
+    'tmrWords7.Enabled = True
+    
+    
+End If
+
+End Sub
+
+Private Sub tmrWords7_Timer()
+
+lblName.Caption = "Lucifer"
+words = "Kill him! KILL HIM SANDALPHON! KILL HIM! KILL YOUR BROTHER!"
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+
+     cmdAttack.Enabled = True
+    'tmrMoveHit2.Enabled = True
+    words = ""
+    'imgNext.Visible = True
+    numwords = 0
+    tmrWords7.Enabled = False
+    
+    
+End If
+
+End Sub
+
+Private Sub tmrWords8_Timer()
+
+lblName.Caption = "Metatron"
+words = "No...It was all your doing?...I'm sorry brother, I have been forced to use this on you."
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    words = ""
+    imgSeal.Visible = True
+    tmrSeal.Enabled = True
+    numwords = 0
+    tmrWords8.Enabled = False
+    tmrMoveRight.Enabled = True
+    
+    
+End If
+
+End Sub
+
+
+'After metatron casts his spell thing the next form (frmLuciferEndtransitionOn)

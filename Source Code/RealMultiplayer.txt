@@ -1,0 +1,1023 @@
+Dim Dialogue As String
+Dim Player1Turn As Boolean
+Dim Player2Turn As Boolean
+Dim vPlayer1 As Integer
+Dim vPlayer2 As Integer
+Dim hPlayer1 As Integer
+Dim hPlayer2 As Integer
+Dim skillCounter As Integer
+Dim player1SP As Integer
+Dim player2SP As Integer
+Dim player1HP As Integer
+Dim player2HP As Integer
+Dim regularSkill As Boolean
+Dim skillDamage As Integer
+Dim regularAttack As Integer
+Dim move1 As Boolean
+Dim move2 As Boolean
+Dim Attack As Boolean
+Dim Hama As Boolean
+Dim HamaD As Integer
+Dim Mudo As Boolean
+Dim MudoD As Integer
+Dim Agi As Boolean
+Dim AgiD As Integer
+Dim nullIce As Boolean
+Dim nullHama As Boolean
+Dim nullMudo As Boolean
+
+Private Sub cmdAttack_Click()
+
+lblCost.Visible = False
+lblSkills.Visible = False
+skillCounter = 0
+
+For X = 0 To 5
+
+    lblPlayerSkill(X).Visible = False
+
+Next X
+
+lblInfo.Visible = False
+
+If Player1Turn = True Then
+
+    Call AttackP1
+
+End If
+
+If Player2Turn = True Then
+
+    Call AttackP2
+
+End If
+
+End Sub
+
+Private Sub cmdQuit_Click()
+
+Me.Hide
+frmMenu.Show
+Multiplayer = True
+
+End Sub
+
+Private Sub cmdSkills_Click()
+
+Call Skills
+
+End Sub
+
+Private Sub Form_Load()
+
+If player2JackFrost = True Then
+    
+    imgPlayer2.Picture = imgJackFrost.Picture
+
+ElseIf player2Metatron = True Then
+
+    imgPlayer2.Picture = imgMetatron.Picture
+
+ElseIf player2Lucifer = True Then
+
+    imgPlayer2.Picture = imgLucifer.Picture
+
+End If
+
+If player1JackFrost = True Then
+    
+    imgPlayer1.Picture = imgJackFrost.Picture
+
+ElseIf player1Metatron = True Then
+
+    imgPlayer1.Picture = imgMetatron.Picture
+
+ElseIf player1Lucifer = True Then
+
+    imgPlayer1.Picture = imgLucifer.Picture
+
+End If
+
+Player1Turn = True
+
+vPlayer2 = 30
+vPlayer1 = 30
+player1SP = 50
+player2SP = 50
+player1HP = 150
+player2HP = 150
+
+End Sub
+
+Private Sub lblPlayerSkill_Click(Index As Integer)
+
+
+If player1SP > 0 Or player2SP > 0 Then
+
+    Select Case Index
+    
+        Case 0
+        
+            If Player1Turn = True Then
+            
+                Call SkillP1
+            
+            ElseIf Player2Turn = True Then
+            
+                Call SkillP2
+            
+            End If
+        
+        Case 1
+
+            If Player1Turn = True And imgPlayer2.Picture = imgJackFrost.Picture Then
+            
+                Call AgiP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgJackFrost.Picture Then
+            
+                Call AgiP2
+            
+            ElseIf Player1Turn = True And imgPlayer2.Picture <> imgJackFrost.Picture Then
+            
+                Call SkillP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture <> imgJackFrost.Picture Then
+            
+                Call SkillP2
+    
+            End If
+
+        Case 2
+        
+            If Player1Turn = True Then
+            
+                Call SkillP1
+            
+            ElseIf Player2Turn = True Then
+            
+                Call SkillP2
+            
+            End If
+
+        Case 3
+        
+            If Player1Turn = True And imgPlayer2.Picture <> imgJackFrost.Picture Then
+            
+                Call SkillP1
+            
+            ElseIf Player2Turn = True And imgPlayer1.Picture <> imgJackFrost.Picture Then
+            
+                Call SkillP2
+                
+            ElseIf Player1Turn = True And imgPlayer2.Picture = imgJackFrost.Picture Then
+            
+                nullIce = True
+                player1SP = player1SP - 5
+                lblPlayerSP.Caption = "SP: " & player1SP
+                tmrPlayer2TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgJackFrost.Picture Then
+            
+                nullIce = True
+                player2SP = player2SP - 5
+                lblPlayerSP.Caption = "SP: " & player1SP
+                tmrPlayer1TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            End If
+        
+        Case 4
+        
+            If Player1Turn = True And imgPlayer2.Picture = imgLucifer.Picture Then
+            
+                Call HamaP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgLucifer.Picture Then
+            
+                Call HamaP2
+            
+            ElseIf Player1Turn = True And imgPlayer2.Picture = imgMetatron.Picture Then
+            
+                nullHama = True
+                player1SP = player1SP - 5
+                lblPlayerSP.Caption = "SP: " & player1SP
+                tmrPlayer2TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgMetatron.Picture Then
+            
+                nullHama = True
+                player2SP = player2SP - 5
+                lblPlayerSP.Caption = "SP: " & player2SP
+                tmrPlayer1TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            ElseIf Player1Turn = True And imgPlayer2.Picture = imgJackFrost.Picture Then
+            
+                Call SkillP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgJackFrost.Picture Then
+            
+                Call SkillP2
+    
+            End If
+        
+        Case 5
+        
+        If Player1Turn = True And imgPlayer2.Picture = imgMetatron.Picture Then
+            
+                Call MudoP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgMetatron.Picture Then
+            
+                Call MudoP2
+            
+            ElseIf Player1Turn = True And imgPlayer2.Picture = imgLucifer.Picture Then
+            
+                nullMudo = True
+                player1SP = player1SP - 5
+                lblPlayerSP.Caption = "SP: " & player1SP
+                tmrPlayer2TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgLucifer.Picture Then
+            
+                nullMudo = True
+                player2SP = player2SP - 5
+                lblPlayerSP.Caption = "SP: " & player2SP
+                tmrPlayer1TakingDamage.Enabled = True
+                Call AllSkillsP
+            
+            ElseIf Player1Turn = True And imgPlayer2.Picture = imgJackFrost.Picture Then
+            
+                Call SkillP1
+                
+            ElseIf Player2Turn = True And imgPlayer1.Picture = imgJackFrost.Picture Then
+            
+                Call SkillP2
+    
+            End If
+
+    End Select
+
+Else
+
+    MsgBox "Insufficient SP", , "SP"
+
+End If
+
+End Sub
+
+Private Sub lblPlayerSkill_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+lblCost.Visible = True
+
+Select Case Index
+
+    Case 0
+    
+        lblCost.Caption = "Deals light Wind damage.             Cost: 5SP"
+    
+    Case 1
+    
+        lblCost.Caption = "Deals light Fire damage.             Cost: 5SP"
+    
+    Case 2
+    
+        lblCost.Caption = "Deals light Electric damage.             Cost: 5SP"
+    
+    Case 3
+    
+        lblCost.Caption = "Deals light Ice damage. Cost: 5SP"
+    
+    Case 4
+    
+        lblCost.Caption = "Deals light Bless damage.                Cost: 5SP"
+    
+    Case 5
+    
+        lblCost.Caption = "Deals light Curse damage.                Cost: 5SP"
+
+End Select
+
+End Sub
+
+Private Sub lblSkills_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+lblCost.Visible = False
+
+End Sub
+
+Private Sub tmrDelay1P1_Timer()
+
+If player2HP = 0 Then
+
+    Call DialogueClear
+    tmrPlayerWin1.Enabled = True
+    tmrPlayer2UPDOWN.Enabled = False
+    tmrDelay1P1.Enabled = False
+
+Else
+
+    Call DialogueClear
+    lblEnemyHP = player1HP
+    lblPlayerHP = "HP: " & player2HP
+    lblPlayerSP = "SP: " & player2SP
+    imgPlayer1.Visible = True
+    imgPlayer2.Visible = False
+    tmrPlayer2Turn.Enabled = True
+    Player1Turn = False
+    Player2Turn = True
+    tmrDelay1P1.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrDelay1P2_Timer()
+
+If player1HP = 0 Then
+
+    Call DialogueClear
+    tmrPlayerWin2.Enabled = True
+    tmrPlayer1UPDOWN.Enabled = False
+    tmrDelay1P2.Enabled = False
+
+Else
+
+    Call DialogueClear
+    lblEnemyHP = player2HP
+    lblPlayerHP = "HP: " & player1HP
+    lblPlayerSP = "SP: " & player1SP
+    imgPlayer2.Visible = True
+    imgPlayer1.Visible = False
+    tmrPlayer1Turn.Enabled = True
+    Player2Turn = False
+    Player1Turn = True
+    tmrDelay1P2.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrPlayer1TakingDamage_Timer()
+
+If Attack = True Then
+    
+    Dialogue = Left("You dealt " & regularAttack & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & regularAttack & " damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        Attack = False
+    
+    End If
+
+ElseIf regularSkill = True Then
+
+    Dialogue = Left("You dealt " & skillDamage & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & skillDamage & " damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        regularSkill = False
+    
+    End If
+
+ElseIf Agi = True Then
+
+    Dialogue = Left("Jack Frost is weak against fire. You dealt " & AgiD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Jack Frost is weak against fire. You dealt " & AgiD & " heavy damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        Agi = False
+    
+    End If
+
+ElseIf nullIce = True Then
+    
+    Dialogue = Left("Jack Frost nullifies ice damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Jack Frost nullifies ice damage. You dealt no damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        nullIce = False
+    
+    End If
+
+ElseIf Hama = True Then
+
+    Dialogue = Left("Lucifer is weak against bless. You dealt " & HamaD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer is weak against bless. You dealt " & HamaD & " heavy damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        Hama = False
+    
+    End If
+
+ElseIf nullHama = True Then
+    
+    Dialogue = Left("Metatron nullifies bless damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Metatron nullifies bless damage. You dealt no damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        nullHama = False
+    
+    End If
+
+ElseIf Mudo = True Then
+
+    Dialogue = Left("Metatron is weak against curse. You dealt " & MudoD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Metatron is weak against curse. You dealt " & MudoD & " heavy damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        Mudo = False
+    
+    End If
+
+ElseIf nullMudo = True Then
+    
+    Dialogue = Left("Lucifer nullifies curse damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer nullifies curse damage. You dealt no damage." Then
+
+        tmrPlayer1TakingDamage.Enabled = False
+        tmrDelay1P2.Enabled = True
+        nullMudo = False
+    
+    End If
+
+End If
+
+End Sub
+
+Private Sub tmrPlayer1Turn_Timer()
+
+Dialogue = Left("Player 1's turn.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Player 1's turn." Then
+
+    cmdSkills.Enabled = True
+    cmdAttack.Enabled = True
+    tmrPlayer1Turn.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayer1UPDOWN_Timer()
+
+imgPlayer1.Top = imgPlayer1.Top + vPlayer1
+imgPlayer1.Left = imgPlayer1.Left + hPlayer1
+
+If imgPlayer1.Top >= 1480 Then
+
+    vPlayer1 = -30
+    
+End If
+
+If imgPlayer1.Top <= 940 Then
+
+    vPlayer1 = 30
+
+End If
+
+If imgPlayer1.Left <= 2380 Then
+
+    hPlayer1 = 100
+
+End If
+
+If imgPlayer1.Left >= 3140 Then
+
+    move1 = True
+    hPlayer1 = -100
+    
+End If
+
+If imgPlayer1.Left <= 2660 And move1 = True Then
+
+    move1 = False
+    hPlayer1 = 0
+
+End If
+
+End Sub
+
+Private Sub tmrPlayer2TakingDamage_Timer()
+
+If Attack = True Then
+
+    Dialogue = Left("You dealt " & regularAttack & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & regularAttack & " damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        Attack = False
+    
+    End If
+
+ElseIf regularSkill = True Then
+
+    Dialogue = Left("You dealt " & skillDamage & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & skillDamage & " damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        regularSkill = False
+    
+    End If
+
+ElseIf Agi = True Then
+    
+    Dialogue = Left("Jack Frost is weak against fire. You dealt " & AgiD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Jack Frost is weak against fire. You dealt " & AgiD & " heavy damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        Agi = False
+    
+    End If
+    
+ElseIf nullIce = True Then
+    
+    Dialogue = Left("Jack Frost nullifies ice damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Jack Frost nullifies ice damage. You dealt no damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        nullIce = False
+    
+    End If
+
+ElseIf Hama = True Then
+
+    Dialogue = Left("Lucifer is weak against bless. You dealt " & HamaD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer is weak against bless. You dealt " & HamaD & " heavy damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        Hama = False
+    
+    End If
+
+ElseIf nullHama = True Then
+    
+    Dialogue = Left("Metatron nullifies bless damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Metatron nullifies bless damage. You dealt no damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        nullHama = False
+    
+    End If
+    
+ElseIf Mudo = True Then
+
+    Dialogue = Left("Metatron is weak against curse. You dealt " & MudoD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Metatron is weak against curse. You dealt " & MudoD & " heavy damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        Mudo = False
+    
+    End If
+
+ElseIf nullMudo = True Then
+    
+    Dialogue = Left("Lucifer nullifies curse damage. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer nullifies curse damage. You dealt no damage." Then
+
+        tmrPlayer2TakingDamage.Enabled = False
+        tmrDelay1P1.Enabled = True
+        nullMudo = False
+    
+    End If
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayer2Turn_Timer()
+
+Dialogue = Left("Player 2's turn.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Player 2's turn." Then
+
+    cmdSkills.Enabled = True
+    cmdAttack.Enabled = True
+    tmrPlayer2Turn.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayer2UPDOWN_Timer()
+
+imgPlayer2.Top = imgPlayer2.Top + vPlayer2
+imgPlayer2.Left = imgPlayer2.Left + hPlayer2
+
+If imgPlayer2.Top >= 1480 Then
+
+    vPlayer2 = -30
+    
+End If
+
+If imgPlayer2.Top <= 940 Then
+
+    vPlayer2 = 30
+
+End If
+
+If imgPlayer2.Left <= 2380 Then
+
+    hPlayer2 = 100
+
+End If
+
+If imgPlayer2.Left >= 3140 Then
+
+    move2 = True
+    hPlayer2 = -100
+    
+End If
+
+If imgPlayer2.Left <= 2660 And move2 = True Then
+
+    move2 = False
+    hPlayer2 = 0
+
+End If
+
+End Sub
+
+Public Sub Skills()
+
+skillCounter = skillCounter + 1
+
+If skillCounter = 1 Then
+
+    lblSkills.Visible = True
+    
+    For X = 0 To 5
+    
+        lblPlayerSkill(X).Visible = True
+        
+    Next X
+    
+    lblInfo.Visible = True
+    
+End If
+
+If skillCounter = 2 Then
+
+    lblSkills.Visible = False
+    
+    For X = 0 To 5
+    
+        lblPlayerSkill(X).Visible = False
+    
+    Next X
+    
+    skillCounter = 0
+    lblInfo.Visible = False
+
+End If
+
+End Sub
+
+Public Sub SkillP1()
+
+regularSkill = True
+Randomize
+skillDamage = Rnd * 5 + 15
+
+If skillDamage >= player2HP Then
+    
+    skillDamage = player2HP
+    
+End If
+
+player2HP = player2HP - skillDamage
+lblEnemyHP.Caption = player2HP
+player1SP = player1SP - 5
+lblPlayerSP.Caption = "SP: " & player1SP
+hPlayer2 = -100
+Call AllSkillsP
+tmrPlayer2TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub SkillP2()
+
+regularSkill = True
+Randomize
+skillDamage = Rnd * 5 + 15
+
+If skillDamage >= player1HP Then
+    
+    skillDamage = player1HP
+    
+End If
+
+player1HP = player1HP - skillDamage
+lblEnemyHP.Caption = player1HP
+player2SP = player2SP - 5
+lblPlayerSP.Caption = "SP: " & player2SP
+hPlayer1 = -100
+Call AllSkillsP
+tmrPlayer1TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub AllSkillsP()
+
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+lblInfo.Visible = False
+lblSkills.Visible = False
+lblCost.Visible = False
+skillCounter = 0
+
+For X = 0 To 5
+
+    lblPlayerSkill(X).Visible = False
+
+Next X
+
+End Sub
+
+Public Sub AttackP1()
+
+Call DialogueClear
+hPlayer2 = -100
+tmrPlayer2TakingDamage.Enabled = True
+Randomize
+regularAttack = Rnd * 14 + 1
+
+If regularAttack >= player2HP Then
+    
+    regularAttack = player2HP
+    
+End If
+    
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+player2HP = player2HP - regularAttack
+lblEnemyHP.Caption = player2HP
+Attack = True
+
+End Sub
+
+Public Sub AttackP2()
+
+Call DialogueClear
+hPlayer1 = -100
+tmrPlayer1TakingDamage.Enabled = True
+Randomize
+regularAttack = Rnd * 14 + 1
+
+If regularAttack >= player1HP Then
+    
+    regularAttack = player1HP
+    
+End If
+    
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+player1HP = player1HP - regularAttack
+lblEnemyHP.Caption = player1HP
+Attack = True
+
+End Sub
+
+Public Sub DialogueClear()
+
+Dialogue = ""
+lblDialogue.Caption = ""
+
+End Sub
+
+Public Sub AgiP1()
+
+Agi = True
+Randomize
+AgiD = Rnd * 5 + 20
+
+If AgiD >= player2HP Then
+    
+    AgiD = player2HP
+    
+End If
+
+player2HP = player2HP - AgiD
+lblEnemyHP.Caption = player2HP
+player1SP = player1SP - 5
+lblPlayerSP.Caption = "SP: " & player1SP
+hPlayer2 = -100
+Call AllSkillsP
+tmrPlayer2TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub AgiP2()
+
+Agi = True
+Randomize
+AgiD = Rnd * 5 + 20
+
+If AgiD >= player1HP Then
+    
+    AgiD = player1HP
+    
+End If
+
+player1HP = player1HP - AgiD
+lblEnemyHP.Caption = player1HP
+player2SP = player2SP - 5
+lblPlayerSP.Caption = "SP: " & player2SP
+hPlayer1 = -100
+Call AllSkillsP
+tmrPlayer1TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub HamaP1()
+
+Hama = True
+Randomize
+HamaD = Rnd * 5 + 20
+
+If HamaD >= player2HP Then
+    
+    HamaD = player2HP
+    
+End If
+
+player2HP = player2HP - HamaD
+lblEnemyHP.Caption = player2HP
+player1SP = player1SP - 5
+lblPlayerSP.Caption = "SP: " & player1SP
+hPlayer2 = -100
+Call AllSkillsP
+tmrPlayer2TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub HamaP2()
+
+Hama = True
+Randomize
+HamaD = Rnd * 5 + 20
+
+If HamaD >= player1HP Then
+    
+    HamaD = player1HP
+    
+End If
+
+player1HP = player1HP - HamaD
+lblEnemyHP.Caption = player1HP
+player2SP = player2SP - 5
+lblPlayerSP.Caption = "SP: " & player2SP
+hPlayer1 = -100
+Call AllSkillsP
+tmrPlayer1TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub MudoP1()
+
+Mudo = True
+Randomize
+MudoD = Rnd * 5 + 20
+
+If MudoD >= player2HP Then
+    
+    MudoD = player2HP
+    
+End If
+
+player2HP = player2HP - MudoD
+lblEnemyHP.Caption = player2HP
+player1SP = player1SP - 5
+lblPlayerSP.Caption = "SP: " & player1SP
+hPlayer2 = -100
+Call AllSkillsP
+tmrPlayer2TakingDamage.Enabled = True
+
+End Sub
+
+Public Sub MudoP2()
+
+Mudo = True
+Randomize
+MudoD = Rnd * 5 + 20
+
+If MudoD >= player1HP Then
+    
+    MudoD = player1HP
+    
+End If
+
+player1HP = player1HP - MudoD
+lblEnemyHP.Caption = player1HP
+player2SP = player2SP - 5
+lblPlayerSP.Caption = "SP: " & player2SP
+hPlayer1 = -100
+Call AllSkillsP
+tmrPlayer1TakingDamage.Enabled = True
+
+End Sub
+
+Private Sub tmrPlayerWin1_Timer()
+
+Dialogue = Left("Player 1 wins!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Player 1 wins!" Then
+
+    imgPlayer2.Visible = False
+    cmdQuit.Visible = True
+    tmrPlayerWin1.Enabled = False
+    
+End If
+
+
+End Sub
+
+Private Sub tmrPlayerWin2_Timer()
+
+Dialogue = Left("Player 2 wins!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Player 2 wins!" Then
+
+    imgPlayer1.Visible = False
+    cmdQuit.Visible = True
+    tmrPlayerWin2.Enabled = False
+    
+End If
+
+End Sub

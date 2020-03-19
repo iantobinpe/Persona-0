@@ -1,0 +1,119 @@
+Private Sub Image1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+tmrHelpBig.Enabled = False
+tmrHelpsmall.Enabled = False
+tmrStartBig.Enabled = False
+tmrStartSmall.Enabled = False
+
+imgHelp.Height = 795
+imgStart.Height = 675
+imgStart.Picture = imgS2.Picture
+imgHelp.Picture = imgH2.Picture
+
+lblBorder.Visible = False
+
+End Sub
+
+Private Sub imgHelp_Click()
+
+Me.Hide
+FrmHelp.Show
+
+End Sub
+
+Private Sub imgHelp_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+tmrHelpBig.Enabled = True
+imgHelp.Picture = imgH.Picture
+lblBorder.Visible = True
+lblBorder.Top = 3960
+lblBorder.Caption = "Learn more on how to play Persona 0."
+
+End Sub
+
+Private Sub imgStart_Click()
+
+Me.Hide
+FrmChoose.Show
+
+
+End Sub
+
+Private Sub imgStart_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+tmrStartBig.Enabled = True
+imgStart.Picture = imgS.Picture
+lblBorder.Visible = True
+lblBorder.Top = 2760
+lblBorder.Caption = "Start Persona 0."
+
+
+End Sub
+
+Private Sub lblQuit_Click()
+
+End
+
+End Sub
+
+Private Sub tmrHelpBig_Timer()
+
+imgHelp.Height = imgHelp.Height + 100
+imgHelp.Width = imgHelp.Width + 100
+imgHelp.Top = imgHelp.Top - 50
+imgHelp.Left = imgHelp.Left - 50
+3720
+
+If imgHelp.Height >= 800 Then
+    tmrHelpsmall.Enabled = True
+    tmrHelpBig.Enabled = False
+End If
+
+End Sub
+
+Private Sub tmrHelpsmall_Timer()
+
+imgHelp.Height = imgHelp.Height - 100
+imgHelp.Width = imgHelp.Width - 100
+imgHelp.Top = imgHelp.Top + 50
+imgHelp.Left = imgHelp.Left + 50
+3720
+
+If imgHelp.Height <= 700 Then
+    tmrHelpsmall.Enabled = False
+    tmrHelpBig.Enabled = True
+End If
+
+
+End Sub
+
+Private Sub tmrStartBig_Timer()
+
+imgStart.Height = imgStart.Height + 100
+imgStart.Width = imgStart.Width + 100
+imgStart.Top = imgStart.Top - 50
+imgStart.Left = imgStart.Left - 50
+3720
+
+If imgStart.Height >= 700 Then
+    tmrStartSmall.Enabled = True
+    tmrStartBig.Enabled = False
+End If
+
+End Sub
+
+Private Sub tmrStartSmall_Timer()
+
+imgStart.Height = imgStart.Height - 100
+imgStart.Width = imgStart.Width - 100
+imgStart.Top = imgStart.Top + 50
+imgStart.Left = imgStart.Left + 50
+3720
+
+If imgStart.Height <= 600 Then
+    tmrStartSmall.Enabled = False
+    tmrStartBig.Enabled = True
+End If
+
+
+End Sub

@@ -1,0 +1,54 @@
+Dim n As Integer
+Private Sub Form_Load()
+
+n = 1
+
+End Sub
+
+Private Sub lblBack_Click()
+
+Me.Hide
+frmMenu.Show
+
+End Sub
+Private Sub lblNext_Click()
+
+n = n + 1
+
+If n = 1 Then
+    lblNa.Caption = "Play through the story of Persona 0"
+    lblThing.Caption = "Story "
+    imgShowcase.Picture = imgShow(0).Picture
+ElseIf n = 2 Then
+    lblNa.Caption = "Play against another person."
+    lblThing.Caption = "Multiplayer "
+    imgShowcase.Picture = imgShow(2).Picture
+    n = 0
+End If
+
+End Sub
+
+Private Sub lblStart_Click()
+
+If n = 1 And Ending = False Then
+
+    Me.Hide
+    frmIntro.Show
+
+ElseIf n = 1 And Ending = True Then
+
+    MsgBox "You have already seen the ending of the story, Thanks for playing!", , "Singleplayer"
+
+ElseIf n = 0 And Multiplayer = False Then
+
+    Me.Hide
+    frmMultiplayer.Show
+
+ElseIf n = 0 And Multiplayer = True Then
+
+    MsgBox "You have played multiplayer already, Thanks for playing!", , "Multiplayer"
+    
+End If
+
+
+End Sub

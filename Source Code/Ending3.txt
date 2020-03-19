@@ -1,0 +1,30 @@
+Private Sub cmdQuit_Click()
+
+Me.Hide
+frmMenu.Show
+Ending = True
+
+End Sub
+
+Private Sub tmrEndCredits_Timer()
+
+imgEndCredits.Top = imgEndCredits.Top - 50
+
+If imgEndCredits.Top <= -23000 Then
+
+    cmdQuit.Visible = True
+    tmrEndCredits.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrShow_Timer()
+
+lblPersona0.Visible = False
+lblEndingName.Visible = False
+tmrShow.Enabled = False
+tmrEndCredits.Enabled = True
+
+
+End Sub

@@ -1,0 +1,233 @@
+Dim words As String
+Dim numhit As Integer
+Dim numwords As Integer
+Dim answer As Boolean
+Dim answer2 As Boolean
+Dim answer3 As Boolean
+Dim AnswerNum As Integer
+'WAIT UNTIL END OF END CREDITS
+'how to get to secret level <-----------------------------
+'answer the ending questions like this <-----------------------------
+'No - No - Yes <-----------------------------
+Private Sub lblNo_Click()
+
+lblYes.Visible = False
+lblNo.Visible = False
+
+If AnswerNum = 1 Then
+
+    answer = True
+    tmrNo1.Enabled = True
+    
+ElseIf AnswerNum = 2 Then
+
+    answer2 = True
+    tmrNo2.Enabled = True
+
+ElseIf AnswerNum = 3 Then
+
+    answer3 = False
+    tmrNo3.Enabled = True
+    
+End If
+
+End Sub
+Private Sub lblYes_Click()
+
+lblYes.Visible = False
+lblNo.Visible = False
+
+If AnswerNum = 1 Then
+
+    answer = False
+    tmrAnswerYes1.Enabled = True
+    
+ElseIf AnswerNum = 2 Then
+
+    answer2 = False
+    tmrAnswerYes2.Enabled = True
+
+ElseIf AnswerNum = 3 Then
+
+    answer3 = True
+    tmrAnswerYes3.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrAnswerYes1_Timer()
+
+words = "System: I see...Thank you for playing."
+numwords = numwords + 1
+AnswerNum = 2
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrAnswerYes1.Enabled = False
+    Me.Hide
+    frmMenu.Show
+    Ending = True
+    
+End If
+
+End Sub
+
+Private Sub tmrAnswerYes2_Timer()
+
+words = "System: So you enjoyed the game after all...Thank you for playing."
+numwords = numwords + 1
+AnswerNum = 3
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrAnswerYes2.Enabled = False
+    Me.Hide
+    frmMenu.Show
+    Ending = True
+    
+End If
+
+End Sub
+
+Private Sub tmrAnswerYes3_Timer()
+
+If answer = True Then
+
+    If answer2 = True Then
+    
+        If answer3 = True Then
+        
+            words = "System: Very well...I shall give you an ending fit for someone as ungrateful as you."
+            numwords = numwords + 1
+            AnswerNum = 3
+
+            lblSystemType.Caption = Mid(words, 1, numwords)
+
+            If numwords = Len(words) + 10 Then
+    
+                numwords = 0
+                words = ""
+                tmrNo2.Enabled = False
+                Me.Hide
+                frmSecretBoss.Show
+                tmrAnswerYes3.Enabled = False
+                    
+            End If
+            
+        End If
+    
+    End If
+    
+End If
+
+End Sub
+Private Sub tmrEndCredits_Timer()
+
+imgEndCredits.Top = imgEndCredits.Top - 50
+
+
+If imgEndCredits.Top <= -22000 Then
+
+lblSystemType.Visible = True
+tmrWords.Enabled = True
+tmrEndCredits.Enabled = False
+
+End If
+
+End Sub
+Private Sub tmrNo1_Timer()
+
+words = "System: Oh? So you did not enjoy what my masters created?"
+numwords = numwords + 1
+AnswerNum = 2
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrNo1.Enabled = False
+    lblYes.Visible = True
+    lblNo.Visible = True
+    
+End If
+
+End Sub
+Private Sub tmrNo2_Timer()
+
+words = "System: Hmmm...Would you like to see...A different ending?"
+numwords = numwords + 1
+AnswerNum = 3
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrNo2.Enabled = False
+    lblYes.Visible = True
+    lblNo.Visible = True
+    
+End If
+
+
+End Sub
+Private Sub tmrNo3_Timer()
+
+words = "System: Having second thoughts are you? Well, thank you for playing."
+numwords = numwords + 1
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrNo3.Enabled = False
+    Me.Hide
+    frmMenu.Show
+    Ending = True
+    
+End If
+
+End Sub
+
+Private Sub tmrShow_Timer()
+
+lblPersona0.Visible = False
+lblEndingName.Visible = False
+tmrShow.Enabled = False
+tmrEndCredits.Enabled = True
+
+
+End Sub
+'secret boss fight if they get the correct answers, last form if they dont.
+Private Sub tmrWords_Timer()
+
+words = "System: So you have complete Persona 0. Are you satisfied with your ending?"
+numwords = numwords + 1
+AnswerNum = 1
+
+lblSystemType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    words = ""
+    tmrWords.Enabled = False
+    lblYes.Visible = True
+    lblNo.Visible = True
+    
+End If
+
+End Sub

@@ -1,0 +1,994 @@
+Dim v As Integer
+Dim hLucifer As Integer
+Dim vLucifer As Integer
+Dim Dialogue As String
+Dim CounterDialogue As Integer
+Dim Blink As Integer
+Dim BlinkCounter As Integer
+Dim move2 As Integer
+Dim itemCounter As Integer
+
+Dim enemyHP As Integer
+Dim playerHP As Integer
+Dim playerSP As Integer
+
+Dim regularAttack As Integer
+Dim Attack As Boolean
+Dim enemyAttack As Integer
+Dim skillCounter As Integer
+Dim instaKill As Integer
+Dim HamaSkill As Integer
+Dim skillDamage As Integer
+Dim regularSkill As Boolean
+Dim Hama As Boolean
+Dim HamaD As Integer
+Dim Mudo As Boolean
+
+Dim Win As Boolean
+Dim Lose As Boolean
+Dim Sound As Integer
+Dim intro As Boolean
+
+Private Sub cmdAttack_Click()
+
+lblSkills.Visible = False
+lblItem1.Visible = False
+lblItem2.Visible = False
+itemCounter = 0
+skillCounter = 0
+
+For X = 0 To 5
+
+    lblPlayerSkill(X).Visible = False
+
+Next X
+
+lblInfo.Visible = False
+
+Call AttackP
+
+End Sub
+
+Private Sub cmdItems_Click()
+
+skillCounter = 0
+
+For X = 0 To 5
+
+    lblPlayerSkill(X).Visible = False
+
+Next X
+
+lblInfo.Visible = False
+
+Call Items
+
+End Sub
+
+Private Sub cmdQuit_Click()
+
+Me.Hide
+frmFlashback.Show
+wmvLevel3.URL = ""
+
+End Sub
+
+Private Sub cmdRestart_Click()
+
+Call Restart
+
+End Sub
+
+Private Sub cmdSkills_Click()
+
+itemCounter = 0
+lblSkills.Visible = False
+lblItem1.Visible = False
+lblItem2.Visible = False
+Call Skills
+
+End Sub
+
+Private Sub lblItem1_Click()
+
+If playerHP = 150 Then
+
+    MsgBox "Failed. Full HP.", , "Item"
+
+ElseIf playerSP = 100 Then
+
+    MsgBox "Failed. Full SP.", , "Item"
+
+Else
+
+    Call ItemP
+    lblItem1.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub lblItem2_Click()
+
+If playerHP = 150 Then
+
+    MsgBox "Failed. Full HP.", , "Item"
+
+ElseIf playerSP = 100 Then
+
+    MsgBox "Failed. Full SP.", , "Item"
+
+Else
+
+    Call ItemP
+    lblItem2.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub lblPlayerSkill_Click(Index As Integer)
+
+If playerSP > 0 Then
+
+    Select Case Index
+
+        Case 0
+    
+            Call SkillP
+    
+        Case 1
+    
+            Call SkillP
+    
+        Case 2
+    
+            Call SkillP
+    
+        Case 3
+    
+            Call SkillP
+    
+        Case 4
+        
+            Randomize
+            HamaD = Rnd * 5 + 30
+            
+            If HamaD > enemyHP Then
+    
+                HamaD = enemyHP
+    
+            End If
+            
+            instaKill = Rnd * 20 + 1
+            
+            If instaKill = 8 Then
+    
+                HamaD = enemyHP
+    
+            End If
+            
+            Hama = True
+            Call AllSkillP
+            playerSP = playerSP - 10
+            lblPlayerSP.Caption = "SP: " & playerSP
+            enemyHP = enemyHP - HamaD
+            lblRealHP.Caption = enemyHP
+            hLucifer = -100
+            
+        Case 5
+    
+            Mudo = True
+            Call AllSkillP
+            playerSP = playerSP - 10
+            lblPlayerSP.Caption = "SP: " & playerSP
+            
+    End Select
+    
+Else
+
+    MsgBox "Insufficient SP. Unable to Cast.", , "Skill"
+
+End If
+
+End Sub
+
+Private Sub lblPlayerSkill_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+lblCost.Visible = True
+
+Select Case Index
+
+    Case 0
+    
+        lblCost.Caption = "Deals light Wind damage.             Cost: 5SP"
+    
+    Case 1
+    
+        lblCost.Caption = "Deals light Fire damage.             Cost: 5SP"
+    
+    Case 2
+    
+        lblCost.Caption = "Deals light Electric damage.             Cost: 5SP"
+    
+    Case 3
+    
+        lblCost.Caption = "Deals light Ice damage. Cost: 5SP"
+    
+    Case 4
+    
+        lblCost.Caption = "Deals light Bless damage. Small chance to instakill.         Cost: 10SP"
+    
+    Case 5
+    
+        lblCost.Caption = "Deals light Curse damage. Small chance to instakill.         Cost: 10SP"
+
+End Select
+
+End Sub
+
+Private Sub lblSkills_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+lblCost.Visible = False
+
+End Sub
+
+Private Sub tmrDelay2_Timer()
+
+Call DialogueClear
+tmrEnemyAttack.Enabled = True
+tmrDelay2.Enabled = False
+
+End Sub
+
+Private Sub tmrDelay3_Timer()
+
+If playerHP = 0 Then
+    
+    Call DialogueClear
+    tmrPlayerLose.Enabled = True
+    tmrDelay3.Enabled = False
+
+Else
+
+    Call DialogueClear
+    tmrPlayerMove.Enabled = True
+    tmrDelay3.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrEnemyAttack_Timer()
+
+If enemyAttack > playerHP Then
+
+    enemyAttack = playerHP
+
+End If
+
+Dialogue = Left("Lucifer dealt " & enemyAttack & " damage.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Lucifer dealt " & enemyAttack & " damage." Then
+
+    playerHP = playerHP - enemyAttack
+    lblPlayerHP.Caption = "HP: " & playerHP
+    tmrDelay3.Enabled = True
+    tmrEnemyAttack.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrEnemyIsThinking_Timer()
+
+Dialogue = Left("Lucifer is thinking...", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Lucifer is thinking..." Then
+
+    tmrDelay2.Enabled = True
+    tmrEnemyIsThinking.Enabled = False
+    Randomize
+    enemyAttack = Rnd * 5 + 35
+    
+End If
+
+End Sub
+
+Private Sub Form_Load()
+
+imgEnemy.Picture = imgSnake.Picture
+v = -30
+tmrA.Enabled = True
+frmMenu.wmvMenu.URL = ""
+Sound = 50
+wmvLevel3.settings.volume = Sound
+
+End Sub
+
+Private Sub imgRightArrow_Click()
+
+CounterDialogue = CounterDialogue + 1
+Call DialogueClear
+imgRightArrow.Visible = False
+
+If CounterDialogue = 1 Then
+
+    tmrB.Enabled = True
+
+ElseIf CounterDialogue = 2 Then
+
+    lblName.Caption = "Protagonist"
+    tmrC.Enabled = True
+
+ElseIf CounterDialogue = 3 Then
+
+    lblName.Caption = "????"
+    tmrD.Enabled = True
+
+ElseIf CounterDialogue = 4 Then
+
+    tmrE.Enabled = True
+
+ElseIf CounterDialogue = 5 Then
+
+    tmrF.Enabled = True
+    tmrMusicSound.Enabled = True
+    intro = True
+
+ElseIf CounterDialogue = 6 Then 'blinking (true form)
+
+    lblName.Caption = ""
+    tmrBlink.Enabled = True
+
+ElseIf CounterDialogue = 7 Then 'Lucifer
+
+    lblName.Caption = "Lucifer"
+    tmrH.Enabled = True
+
+ElseIf CounterDialogue = 8 Then
+
+    tmrI.Enabled = True
+
+ElseIf CounterDialogue = 9 Then 'Fight Starts
+
+    lblName.Caption = "System"
+    tmrPlayerMove.Enabled = True
+    enemyHP = 300
+    playerHP = 150
+    playerSP = 100
+
+ElseIf CounterDialogue = 10 And Lose = True Then
+
+    imgEnemy.Visible = False
+    lblName.Caption = "System"
+    tmrPlayerLose2.Enabled = True
+
+ElseIf CounterDialogue = 10 And Win = True Then
+
+    imgEnemy.Visible = False
+    lblName.Caption = "Protagonist"
+    tmrPlayerWin2.Enabled = True
+
+ElseIf CounterDialogue = 11 And Win = True Then
+
+    tmrPlayerWin3.Enabled = True
+
+ElseIf CounterDialogue = 12 And Win = True Then
+
+    lblName.Caption = "System"
+    tmrPlayerWin4.Enabled = True
+
+End If
+
+End Sub
+
+Private Sub tmrA_Timer()
+
+Dialogue = Left("Hahahaha.. I must thank you.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Hahahaha.. I must thank you." Then
+
+    tmrA.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrB_Timer()
+
+Dialogue = Left("I can now take over Heaven thanks to you.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "I can now take over Heaven thanks to you." Then
+
+    tmrB.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrBlink_Timer()
+
+Blink = Rnd * 10 + 1
+
+If Blink = 3 Or Blink = 7 Or Blink = 6 Then
+
+    imgBlack.Visible = True
+    BlinkCounter = BlinkCounter + 1
+
+Else
+
+    imgBlack.Visible = False
+
+End If
+
+If BlinkCounter = 10 Then
+
+    imgBlack.Visible = False
+    imgEnemy.Picture = imgLucifer.Picture
+    tmrBlink.Enabled = False
+    tmrG.Enabled = True
+    lblName.Caption = "????"
+
+End If
+    
+End Sub
+
+Private Sub tmrC_Timer()
+
+Dialogue = Left("What..?", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "What..?" Then
+
+    tmrC.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrD_Timer()
+
+Dialogue = Left("You really have no idea, do you?", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You really have no idea, do you?" Then
+
+    tmrD.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrDelay1_Timer()
+
+If enemyHP = 0 Then
+
+    Call DialogueClear
+    tmrPlayerWin.Enabled = True
+    tmrDelay1.Enabled = False
+
+Else
+
+    Call DialogueClear
+    tmrEnemyIsThinking.Enabled = True
+    tmrDelay1.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrE_Timer()
+
+Dialogue = Left("I'll let you in on something before I kill you.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "I'll let you in on something before I kill you." Then
+
+    tmrE.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrEnemyTakingDamage_Timer()
+
+If Attack = True Then
+    
+    Dialogue = Left("You dealt " & regularAttack & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & regularAttack & " damage." Then
+
+        tmrEnemyTakingDamage.Enabled = False
+        tmrDelay1.Enabled = True
+        Attack = False
+    
+    End If
+
+ElseIf Hama = True Then
+
+    Dialogue = Left("Lucifer is weak to Hama! You dealt " & HamaD & " heavy damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer is weak to Hama! You dealt " & HamaD & " heavy damage." Then
+
+        tmrEnemyTakingDamage.Enabled = False
+        tmrDelay1.Enabled = True
+        Hama = False
+    
+    End If
+
+ElseIf regularSkill = True Then
+
+    Dialogue = Left("You dealt " & skillDamage & " damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "You dealt " & skillDamage & " damage." Then
+
+        tmrEnemyTakingDamage.Enabled = False
+        tmrDelay1.Enabled = True
+        regularSkill = False
+    
+    End If
+    
+ElseIf Mudo = True Then
+
+    Dialogue = Left("Lucifer nullified Mudo. You dealt no damage.", Len(lblDialogue.Caption) + 1)
+
+    lblDialogue.Caption = Dialogue
+
+    If lblDialogue.Caption = "Lucifer nullified Mudo. You dealt no damage." Then
+
+        tmrEnemyTakingDamage.Enabled = False
+        tmrDelay1.Enabled = True
+        Mudo = False
+        
+    End If
+
+End If
+    
+End Sub
+
+Private Sub tmrF_Timer()
+
+Dialogue = Left("Allow me to show you my True Form.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Allow me to show you my True Form." Then
+
+    tmrF.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrG_Timer()
+
+Dialogue = Left("My name is Lucifer.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "My name is Lucifer." Then
+
+    tmrG.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrH_Timer()
+
+Dialogue = Left("You have killed the last angel that can protect Heaven.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You have killed the last angel that can protect Heaven." Then
+
+    tmrH.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrI_Timer()
+
+Dialogue = Left("Now..Come!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Now..Come!" Then
+
+    tmrI.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrMusicSound_Timer()
+
+wmvLevel3.settings.volume = Sound
+
+If intro = True Then
+    
+    Sound = Sound - 5
+    
+    If Sound = 0 Then
+
+        intro = False
+        
+    End If
+    
+End If
+
+If intro = False Then
+        
+    Sound = Sound + 5
+        
+    If Sound = 20 Then
+            
+        tmrMusicSound.Enabled = False
+            
+    End If
+        
+End If
+
+End Sub
+
+Private Sub tmrPlayerLose_Timer()
+
+lblName.Caption = "Lucifer"
+
+Dialogue = Left("Haha. Pathetic. I have won.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Haha. Pathetic. I have won." Then
+
+    Lose = True
+    imgRightArrow.Visible = True
+    tmrPlayerLose.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerLose2_Timer()
+
+Dialogue = Left("You have lost. Restart?", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You have lost. Restart?" Then
+
+    cmdRestart.Visible = True
+    cmdQuit.Visible = True
+    Lose = False
+    tmrPlayerLose2.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerMove_Timer()
+
+Dialogue = Left("Make your move.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Make your move." Then
+
+    Call PlayerMove
+    tmrPlayerMove.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerWin_Timer()
+
+tmrSnakeUPDOWN.Enabled = False
+
+lblName.Caption = "System"
+
+Dialogue = Left("You have won.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You have won." Then
+
+    Win = True
+    imgRightArrow.Visible = True
+    tmrPlayerWin.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerWin2_Timer()
+
+Dialogue = Left("I have won..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "I have won.." Then
+
+    imgRightArrow.Visible = True
+    tmrPlayerWin2.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerWin3_Timer()
+
+Dialogue = Left("Is this the end?", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Is this the end?" Then
+
+    imgRightArrow.Visible = True
+    tmrPlayerWin3.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrPlayerWin4_Timer()
+
+Dialogue = Left("....", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "...." Then
+
+    cmdQuit.Visible = True
+    cmdQuit.Left = 2760
+    tmrPlayerWin4.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrSnakeUPDOWN_Timer()
+
+imgEnemy.Top = imgEnemy.Top + v
+imgEnemy.Left = imgEnemy.Left + hLucifer
+
+If imgEnemy.Top >= 1000 Then
+
+    v = -30
+    
+End If
+
+If imgEnemy.Top <= 500 Then
+
+    v = 30
+
+End If
+
+If imgEnemy.Left >= 2720 Then
+
+    hLucifer = -100
+    move2 = True
+
+End If
+
+If imgEnemy.Left <= 2130 Then
+
+    hLucifer = 100
+
+End If
+
+If imgEnemy.Left <= 2520 And move2 = True Then
+
+    hLucifer = 0
+    move2 = False
+
+End If
+
+End Sub
+
+Public Sub AttackP()
+
+Call DialogueClear
+hLucifer = -100
+tmrEnemyTakingDamage.Enabled = True
+Randomize
+regularAttack = Rnd * 14 + 1
+
+If regularAttack >= enemyHP Then
+    
+    regularAttack = enemyHP
+
+End If
+
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+cmdItems.Enabled = False
+enemyHP = enemyHP - regularAttack
+lblRealHP.Caption = enemyHP
+Attack = True
+
+End Sub
+
+Public Sub PlayerMove()
+
+cmdAttack.Visible = True
+cmdSkills.Visible = True
+cmdItems.Visible = True
+cmdAttack.Enabled = True
+cmdSkills.Enabled = True
+cmdItems.Enabled = True
+lblBlack.Visible = True
+lblHP.Visible = True
+lblRealHP.Visible = True
+lblPlayerHP.Visible = True
+lblPlayerSP.Visible = True
+
+End Sub
+
+Public Sub Skills()
+
+skillCounter = skillCounter + 1
+
+If skillCounter = 1 Then
+
+    lblSkills.Visible = True
+    
+    For X = 0 To 5
+    
+        lblPlayerSkill(X).Visible = True
+        
+    Next X
+    
+    lblInfo.Visible = True
+
+End If
+
+If skillCounter = 2 Then
+
+    lblSkills.Visible = False
+    
+    For X = 0 To 5
+    
+        lblPlayerSkill(X).Visible = False
+    
+    Next X
+    
+    skillCounter = 0
+    lblInfo.Visible = False
+
+End If
+
+End Sub
+
+Public Sub DialogueClear()
+
+Dialogue = ""
+lblDialogue.Caption = ""
+
+End Sub
+
+Public Sub SkillP()
+
+regularSkill = True
+Randomize
+skillDamage = Rnd * 5 + 20
+
+If skillDamage >= enemyHP Then
+    
+    skillDamage = enemyHP
+    
+End If
+
+enemyHP = enemyHP - skillDamage
+lblRealHP.Caption = enemyHP
+playerSP = playerSP - 5
+lblPlayerSP.Caption = "SP: " & playerSP
+hLucifer = -100
+Call AllSkillP
+
+End Sub
+
+Public Sub AllSkillP()
+
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+cmdItems.Enabled = False
+lblInfo.Visible = False
+lblSkills.Visible = False
+lblCost.Visible = False
+skillCounter = 0
+
+For X = 0 To 5
+
+    lblPlayerSkill(X).Visible = False
+
+Next X
+
+tmrEnemyTakingDamage.Enabled = True
+
+End Sub
+
+Public Sub Items()
+
+itemCounter = itemCounter + 1
+
+If itemCounter = 1 Then
+
+    lblSkills.Visible = True
+    lblItem1.Visible = True
+    lblItem2.Visible = True
+
+End If
+
+If itemCounter = 2 Then
+
+    lblSkills.Visible = False
+    lblItem1.Visible = False
+    lblItem2.Visible = False
+    itemCounter = 0
+
+End If
+
+End Sub
+
+Public Sub ItemP()
+
+playerHP = 150
+lblPlayerHP.Caption = "HP: " & playerHP
+playerSP = 100
+lblPlayerSP.Caption = "SP: " & playerSP
+
+End Sub
+
+Public Sub Restart()
+
+Dialogue = ""
+lblDialogue.Caption = ""
+cmdRestart.Visible = False
+cmdQuit.Visible = False
+Call ItemP
+lblName.Caption = "System"
+tmrPlayerMove.Enabled = True
+CounterDialogue = 9
+enemyHP = 300
+lblRealHP.Caption = enemyHP
+lblItem1.Enabled = True
+lblItem2.Enabled = True
+imgEnemy.Visible = True
+move2 = False
+tmrSnakeUPDOWN.Enabled = True
+Win = False
+Lose = False
+wmvLevel3.settings.volume = Sound
+Sound = 20
+intro = False
+
+End Sub

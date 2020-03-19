@@ -1,0 +1,161 @@
+Dim words As String
+Dim numhit As Integer
+Dim numwords As Integer
+Dim answer As Boolean
+
+Private Sub lblNo_Click()
+
+numhit = numhit + 1
+
+If answer = False Then
+
+    If numhit = 1 Then
+        Me.Hide
+        frmMenu.Show
+        Ending = True
+        
+    End If
+
+End If
+
+If answer = True Then
+
+    tmrNoHint.Enabled = True
+    numhit = 0
+    
+End If
+
+
+End Sub
+
+Private Sub lblYes_Click()
+
+numhit = numhit + 1
+
+If answer = False Then
+
+If numhit = 1 Then
+    lblAsk.Caption = ""
+    tmrHint.Enabled = True
+    tmrWords.Enabled = False
+End If
+
+End If
+
+If answer = True Then
+    tmrGiveHint.Enabled = True
+    numhit = 0
+End If
+
+End Sub
+
+Private Sub tmrEndCredits_Timer()
+
+imgEndCredits.Top = imgEndCredits.Top - 50
+
+If imgEndCredits.Top <= -22000 Then
+
+words = "Persona 0 is a game with multiple endings, you have currently experienced 2...Would you like to replay the secret boss in order to witness the third and final ending?"
+tmrWords.Enabled = True
+lblAsk.Visible = True
+tmrEndCredits.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrGiveHint_Timer()
+
+words = "In order to beat the system, disregard everything you have learned, he can either be the easiest or the hardest fight."
+numwords = numwords + 1
+
+lblAsk.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 40 Then
+    
+    Call ResetAll
+    tmrGiveHint.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrHint_Timer()
+
+words = "Would you like a hint in order to beat the system?"
+numwords = numwords + 1
+
+lblAsk.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+numwords = 0
+words = ""
+tmrHint.Enabled = False
+answer = True
+    
+End If
+
+End Sub
+
+Private Sub tmrNoHint_Timer()
+
+words = "Hmmm...Good luck..."
+numwords = numwords + 1
+
+lblAsk.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 40 Then
+    
+    Call ResetAll
+    tmrNoHint.Enabled = False
+    
+End If
+
+
+End Sub
+
+Private Sub tmrShow_Timer()
+
+lblPersona0.Visible = False
+lblEndingName.Visible = False
+tmrShow.Enabled = False
+tmrEndCredits.Enabled = True
+
+End Sub
+Private Sub tmrWords_Timer()
+
+numwords = numwords + 1
+
+lblAsk.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    numwords = 0
+    lblBackground.Visible = True
+    words = ""
+    tmrWords.Enabled = False
+    lblYes.Visible = True
+    lblNo.Visible = True
+    
+End If
+
+End Sub
+Public Sub ResetAll()
+
+numwords = 0
+words = ""
+answer = False
+lblAsk.Visible = False
+lblBackground.Visible = False
+lblYes.Visible = False
+lblNo.Visible = False
+tmrGiveHint.Enabled = False
+lblPersona0.Visible = True
+lblEndingName.Visible = True
+Me.Hide
+frmSecretBoss.Show
+imgEndCredits.Top = 4680
+tmrEndCredits.Enabled = False
+
+End Sub

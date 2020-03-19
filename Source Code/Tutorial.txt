@@ -1,0 +1,953 @@
+Dim v As Integer
+Dim h As Integer
+Dim vJackFrost As Integer
+Dim hJackFrost As Integer
+Dim Dialogue As String
+Dim CounterDialogue As Integer
+Dim firstMove As Boolean
+Dim secondMove As Boolean
+
+Dim Attack As Boolean
+Dim regularAttack As Integer
+Dim tempA As Boolean
+Dim enemyHP As Integer
+Dim playerHP As Integer
+Dim playerSP As Integer
+Dim enemyRegularAttack As Integer
+
+Dim skillCounter As Integer
+Dim regularSkill As Integer
+
+Dim move2 As Boolean
+
+Dim itemCounter As Integer
+
+Private Sub cmdAttack_Click()
+
+Call AttackP
+
+End Sub
+
+Private Sub cmdExitTutorial_Click()
+
+Call Replay
+cmdExitTutorial.Visible = False
+cmdReplay.Visible = False
+Me.Hide
+frmTransitionTutorial.Show
+wmvTutorial.URL = ""
+
+End Sub
+
+Private Sub cmdItems_Click()
+
+Call Items
+
+End Sub
+
+Private Sub cmdReplay_Click()
+
+Call Replay
+cmdReplay.Visible = False
+cmdExitTutorial.Visible = False
+
+End Sub
+
+Private Sub cmdSkills_Click()
+
+Call Skills
+
+End Sub
+
+Private Sub Form_Load()
+
+v = 30
+tmrA.Enabled = True
+wmvTutorial.settings.volume = 30
+
+End Sub
+
+Private Sub imgRightArrow_Click()
+
+CounterDialogue = CounterDialogue + 1
+Dialogue = ""
+lblDialogue.Caption = Dialogue
+imgRightArrow.Visible = False
+
+If CounterDialogue = 1 Then
+
+    tmrB.Enabled = True
+
+ElseIf CounterDialogue = 2 Then
+
+    lblName.Caption = "Protagonist"
+    tmrC.Enabled = True
+
+ElseIf CounterDialogue = 3 Then
+
+    lblName.Caption = "????"
+    tmrD.Enabled = True
+
+ElseIf CounterDialogue = 4 Then
+
+    lblName.Caption = "Protagonist"
+    tmrE.Enabled = True
+
+ElseIf CounterDialogue = 5 Then
+
+    lblName.Caption = "????"
+    tmrF.Enabled = True
+
+ElseIf CounterDialogue = 6 Then
+
+    lblName.Caption = "Protagonist"
+    tmrG.Enabled = True
+
+ElseIf CounterDialogue = 7 Then
+
+    lblName.Caption = "????"
+    tmrH.Enabled = True
+    h = -100
+    firstMove = True
+
+ElseIf CounterDialogue = 8 Then
+
+    lblName.Caption = "Jack Frost"
+    tmrI.Enabled = True
+
+ElseIf CounterDialogue = 9 Then
+
+    lblName.Caption = "????"
+    tmrK.Enabled = True
+
+ElseIf CounterDialogue = 10 Then
+
+    tmrL.Enabled = True
+    
+ElseIf CounterDialogue = 11 Then
+
+    tmrM.Enabled = True
+
+ElseIf CounterDialogue = 12 Then
+
+    lblName.Caption = "System"
+    tmrN.Enabled = True
+    
+ElseIf CounterDialogue = 13 Then 'You attack
+    
+    enemyHP = 100
+    Attack = True
+    tmrO.Enabled = True
+    cmdAttack.Visible = True
+
+ElseIf CounterDialogue = 14 Then
+    
+    tmrP.Enabled = True
+    playerHP = 150
+    playerSP = 100
+
+ElseIf CounterDialogue = 15 Then
+
+    tmrEnemyThinking.Enabled = True
+
+ElseIf CounterDialogue = 16 Then 'Jack Frost attacks
+
+    tmrEnemyAttack.Enabled = True
+
+ElseIf CounterDialogue = 17 Then
+
+    lblName.Caption = "????"
+    tmrQ.Enabled = True
+
+ElseIf CounterDialogue = 18 Then
+
+    tmrR.Enabled = True
+
+ElseIf CounterDialogue = 19 Then
+
+    tmrS.Enabled = True
+    lblName.Caption = "System"
+
+ElseIf CounterDialogue = 20 Then
+
+    tmrT.Enabled = True
+
+ElseIf CounterDialogue = 21 Then
+
+    tmrU.Enabled = True
+
+ElseIf CounterDialogue = 22 Then
+
+    lblName.Caption = "Jack Frost"
+    tmrV.Enabled = True
+
+ElseIf CounterDialogue = 23 Then
+
+    lblHP.Visible = False
+    lblRealHP.Visible = False
+    imgJackFrost.Visible = False
+    tmrJackFrostUPDOWN.Enabled = False
+    tmrW.Enabled = True
+    lblName.Caption = "System"
+
+ElseIf CounterDialogue = 24 Then
+
+    tmrSnakeUPDOWN.Enabled = True
+    lblName.Caption = "????"
+    imgSnake.Visible = True
+    move2 = True
+    tmrX.Enabled = True
+
+ElseIf CounterDialogue = 25 Then
+
+    tmrY.Enabled = True
+
+ElseIf CounterDialogue = 26 Then
+
+    tmrZ.Enabled = True
+
+ElseIf CounterDialogue = 27 Then
+
+    imgSnake.Visible = False
+    tmrSnakeUPDOWN.Enabled = False
+    tmrA1.Enabled = True
+    lblName.Caption = "System"
+
+ElseIf CounterDialogue = 28 Then
+
+    tmrB1.Enabled = True
+
+ElseIf CounterDialogue = 29 Then
+
+    tmrD1.Enabled = True
+    
+End If
+
+End Sub
+
+Private Sub lblMegidolaon_Click()
+
+If lblMegidolaon.Caption = "Megidolaon" Then
+
+    cmdSkills.Enabled = False
+    lblMegidolaon.Visible = False
+    lblSkills.Visible = False
+    tmrMegidolaon.Enabled = True
+    Dialogue = ""
+    lblDialogue.Caption = ""
+    lblCost.Visible = False
+    playerSP = 0
+    lblPlayerSP.Caption = "SP: " & playerSP
+
+Else
+
+    lblMegidolaon.Visible = False
+    cmdItems.Enabled = False
+    lblSkills.Visible = False
+    Dialogue = ""
+    lblDialogue.Caption = ""
+    tmrC1.Enabled = True
+    playerHP = 150
+    playerSP = 100
+    lblPlayerSP.Caption = "SP: " & playerSP
+    lblPlayerHP.Caption = "HP: " & playerHP
+
+End If
+    
+End Sub
+
+Private Sub tmrA_Timer()
+
+Dialogue = Left("What brings you here?...", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "What brings you here?..." Then
+
+    tmrA.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrA1_Timer()
+
+Dialogue = Left("???? gave you an item. 1x Full HP and SP potion.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "???? gave you an item. 1x Full HP and SP potion." Then
+
+    tmrA1.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrAttackDialogue_Timer()
+
+lblName.Caption = "System"
+
+Dialogue = Left("You dealt " & regularAttack & " damage.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You dealt " & regularAttack & " damage." Then
+
+    tmrAttackDialogue.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrB_Timer()
+
+Dialogue = Left("I saw you fall from the sky..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "I saw you fall from the sky.." Then
+
+    tmrB.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrB1_Timer()
+
+Dialogue = Left("Items has been unlocked. Use the potion to recover.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Items has been unlocked. Use the potion to recover." Then
+
+    cmdItems.Visible = True
+    lblMegidolaon.Caption = "Full HP and SP potion"
+    tmrB1.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrC_Timer()
+
+Dialogue = Left("Where am I?..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Where am I?.." Then
+
+    tmrC.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrC1_Timer()
+
+Dialogue = Left("HP and SP has been replenished.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "HP and SP has been replenished." Then
+
+    tmrC1.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrD_Timer()
+
+Dialogue = Left("Where you ask? You are in the Forbidden Forest.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Where you ask? You are in the Forbidden Forest." Then
+
+    tmrD.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrD1_Timer()
+
+Dialogue = Left("Tutorial is now complete.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Tutorial is now complete." Then
+
+    tmrD1.Enabled = False
+    cmdExitTutorial.Visible = True
+    cmdReplay.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrE_Timer()
+
+Dialogue = Left("Forbidden Forest.. I don't recall this place..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Forbidden Forest.. I don't recall this place.." Then
+
+    tmrE.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrF_Timer()
+
+Dialogue = Left("Hmm..*smirk*..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Hmm..*smirk*.." Then
+
+    tmrF.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrG_Timer()
+
+Dialogue = Left("Who's that behind you?", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Who's that behind you?" Then
+
+    tmrG.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrH_Timer()
+
+Dialogue = Left("Well.. this is a surprise..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Well.. this is a surprise.." Then
+
+    tmrH.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrI_Timer()
+
+Dialogue = Left("He..ho.. I'm here to kill you!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "He..ho.. I'm here to kill you!" Then
+
+    tmrI.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrJackFrostUPDOWN_Timer()
+
+imgJackFrost.Top = imgJackFrost.Top + vJackFrost
+
+If imgJackFrost.Top >= 1480 Then
+
+    vJackFrost = -30
+    
+End If
+
+If imgJackFrost.Top <= 1180 Then
+
+    vJackFrost = 30
+
+End If
+
+End Sub
+
+Private Sub tmrK_Timer()
+
+Dialogue = Left("... I can't let this go to waste..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "... I can't let this go to waste.." Then
+
+    tmrK.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrL_Timer()
+
+Dialogue = Left("Listen, Human. I will unleash your true potential.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Listen, Human. I will unleash your true potential." Then
+
+    tmrL.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrM_Timer()
+
+Dialogue = Left("You will have to fight this monster. I will assist you.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "You will have to fight this monster. I will assist you." Then
+
+    tmrM.Enabled = False
+    imgRightArrow.Visible = True
+    h = -100
+    secondMove = True
+    
+End If
+
+End Sub
+
+Private Sub tmrMegidolaon_Timer()
+
+Dialogue = Left("Megidolaon dealt " & regularSkill & " damage!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Megidolaon dealt " & regularSkill & " damage!" Then
+
+    enemyHP = 0
+    lblRealHP.Caption = enemyHP
+    imgRightArrow.Visible = True
+    CounterDialogue = 21
+    tmrMegidolaon.Enabled = False
+    tmrJackFrostUPDOWN.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrN_Timer()
+
+Dialogue = Left("Your powers has been unlocked.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Your powers has been unlocked." Then
+
+    tmrN.Enabled = False
+    imgRightArrow.Visible = True
+    
+End If
+
+End Sub
+
+Private Sub tmrO_Timer()
+
+Dialogue = Left("Press the attack button to attack.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Press the attack button to attack." Then
+
+    tmrO.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrP_Timer()
+
+Dialogue = Left("The enemy's health is above the enemy and yours is at the bottom.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "The enemy's health is above the enemy and yours is at the bottom." Then
+
+    lblHP.Visible = True
+    lblRealHP.Visible = True
+    tmrP.Enabled = False
+    imgRightArrow.Visible = True
+    lblBlack.Visible = True
+    lblPlayerHP.Visible = True
+    lblPlayerSP.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrPlayerAttack_Timer()
+
+imgJackFrost.Left = imgJackFrost.Left + hJackFrost
+
+If imgJackFrost.Left <= 2410 Then
+
+    hJackFrost = 100
+
+End If
+
+If imgJackFrost.Left >= 3560 Then
+
+    hJackFrost = -100
+    tempA = True
+    
+End If
+
+If imgJackFrost.Left <= 2800 And tempA = True Then
+    
+    tmrPlayerAttack.Enabled = False
+    tmrAttackDialogue.Enabled = True
+    hJackFrost = 0
+    tempA = False
+    
+End If
+
+End Sub
+
+Private Sub tmrEnemyThinking_Timer()
+
+Randomize
+enemyRegularAttack = Rnd * 19 + 1
+
+Dialogue = Left("Jack Frost is thinking...", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Jack Frost is thinking..." Then
+
+    tmrEnemyThinking.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrEnemyAttack_Timer()
+
+Dialogue = Left("Jack Frost attacks you dealing " & enemyRegularAttack & " damage!", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Jack Frost attacks you dealing " & enemyRegularAttack & " damage!" Then
+
+    tmrEnemyAttack.Enabled = False
+    imgRightArrow.Visible = True
+    playerHP = playerHP - enemyRegularAttack
+    lblPlayerHP = "HP: " & playerHP
+    
+End If
+
+End Sub
+
+Private Sub tmrQ_Timer()
+
+Dialogue = Left("Hmm... interesting...", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Hmm... interesting..." Then
+
+    tmrQ.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrR_Timer()
+
+Dialogue = Left("Listen, Human. I shall lend you my attack. Feel free to use it.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Listen, Human. I shall lend you my attack. Feel free to use it." Then
+
+    tmrR.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrS_Timer()
+
+Dialogue = Left("Skills have been unlocked.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Skills have been unlocked." Then
+
+    tmrS.Enabled = False
+    cmdSkills.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrSnakeUPDOWN_Timer()
+
+imgSnake.Top = imgSnake.Top + v
+imgSnake.Left = imgSnake.Left + h
+
+If imgSnake.Top >= 1680 Then
+
+    v = -30
+    
+End If
+
+If imgSnake.Top <= 1460 Then
+
+    v = 30
+
+End If
+
+If imgSnake.Left <= 1000 And firstMove = True Then
+
+    h = 0
+    firstMove = False
+    imgJackFrost.Visible = True
+    tmrJackFrostUPDOWN.Enabled = True
+    vJackFrost = 30
+
+End If
+
+If imgSnake.Left <= -1500 And secondMove = True Then
+
+    h = 0
+    secondMove = False
+    tmrSnakeUPDOWN.Enabled = False
+
+End If
+
+If move2 = True Then
+
+    h = 100
+
+End If
+
+If move2 = True And imgSnake.Left >= 2880 Then
+
+    h = 0
+
+End If
+
+End Sub
+
+Private Sub tmrU_Timer()
+
+Dialogue = Left("Jack Frost is on his knees.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Jack Frost is on his knees." Then
+
+    tmrU.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrV_Timer()
+
+Dialogue = Left("Woah! You are strong. I shall follow you.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Woah! You are strong. I shall follow you." Then
+
+    tmrV.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrW_Timer()
+
+Dialogue = Left("Jack Frost has joined your party.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Jack Frost has joined your party." Then
+
+    tmrW.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrX_Timer()
+
+Dialogue = Left("Haha.. Excellent..", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Haha.. Excellent.." Then
+
+    tmrX.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrY_Timer()
+
+Dialogue = Left("I must ask you now to help me. Your journey has only started.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "I must ask you now to help me. Your journey has only started." Then
+
+    tmrY.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Private Sub tmrZ_Timer()
+
+Dialogue = Left("Let us go.", Len(lblDialogue.Caption) + 1)
+
+lblDialogue.Caption = Dialogue
+
+If lblDialogue.Caption = "Let us go." Then
+
+    tmrZ.Enabled = False
+    imgRightArrow.Visible = True
+
+End If
+
+End Sub
+
+Public Sub AttackP()
+
+tmrO.Enabled = False
+Dialogue = ""
+lblDialogue.Caption = ""
+hJackFrost = -100
+tmrPlayerAttack.Enabled = True
+Randomize
+regularAttack = Rnd * 14 + 1
+cmdAttack.Enabled = False
+enemyHP = enemyHP - regularAttack
+lblRealHP.Caption = enemyHP
+
+End Sub
+
+Public Sub Skills()
+
+skillCounter = skillCounter + 1
+
+If skillCounter = 1 Then
+
+    lblSkills.Visible = True
+    lblMegidolaon.Visible = True
+    lblCost.Visible = True
+
+End If
+
+If skillCounter = 2 Then
+
+    lblSkills.Visible = False
+    lblMegidolaon.Visible = False
+    skillCounter = 0
+    lblCost.Visible = False
+
+End If
+
+regularSkill = enemyHP
+
+End Sub
+
+Public Sub Items()
+
+itemCounter = itemCounter + 1
+
+If itemCounter = 1 Then
+
+    lblSkills.Visible = True
+    lblMegidolaon.Visible = True
+
+End If
+
+If itemCounter = 2 Then
+
+    lblSkills.Visible = False
+    lblMegidolaon.Visible = False
+    itemCounter = 0
+
+End If
+
+End Sub
+
+Public Sub Replay()
+
+Dialogue = ""
+lblDialogue.Caption = ""
+itemCounter = 0
+skillCounter = 0
+CounterDialogue = 0
+cmdSkills.Visible = False
+cmdAttack.Visible = False
+cmdItems.Visible = False
+cmdSkills.Enabled = True
+cmdItems.Enabled = True
+cmdAttack.Enabled = True
+HP = 100
+lblRealHP.Caption = HP
+lblPlayerHP.Visible = False
+lblPlayerSP.Visible = False
+lblBlack.Visible = False
+lblMegidolaon.Caption = "Megidolaon"
+v = 30
+tmrA.Enabled = True
+tmrSnakeUPDOWN.Enabled = True
+move2 = False
+firstMove = False
+secondMove = False
+Attack = False
+regularAttack = 0
+playerAttack = 0
+tempA = False
+hJackFrost = 0
+vJackFrost = 0
+regularSkill = 0
+imgJackFrost.Left = 2880
+imgJackFrost.Top = 1440
+imgSnake.Top = 1800
+imgSnake.Left = 2880
+lblName = "????"
+imgSnake.Visible = True
+
+End Sub

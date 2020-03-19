@@ -1,0 +1,150 @@
+Dim player1 As Boolean
+Dim player2 As Boolean
+Private Sub Form_Load()
+
+player1 = True
+
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+lblName.Visible = False
+lblAreYou.Visible = False
+lblName.BackColor = vbWhite
+lblName.Caption = ""
+
+End Sub
+
+Private Sub imgJackFrost_Click()
+
+imgJackFrost.Enabled = False
+
+If player1 = True Then
+
+    player1 = False
+    player1JackFrost = True
+    lblPersona1.Caption = "Jack Frost"
+    lblPersona1.BackColor = &HFFFF80
+    lblPersona1.Visible = True
+    lblPlayer1.BackColor = vbWhite
+    lblPlayer2.BackColor = vbYellow
+ 
+ElseIf player1 = False Then
+
+    player2JackFrost = True
+    lblPersona2.Caption = "Jack Frost"
+    lblPersona2.Visible = True
+    lblPersona2.BackColor = &HFFFF80
+    imgLucifer.Enabled = False
+    imgJackFrost.Enabled = False
+    tmrDelay.Enabled = True
+    
+End If
+
+End Sub
+
+Private Sub imgJackFrost_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+Call VisibleP
+lblName.BackColor = &HFFFF80
+lblName.Caption = "Jack Frost" & "?"
+
+End Sub
+
+Public Sub VisibleP()
+
+lblName.Visible = True
+lblAreYou.Visible = True
+
+End Sub
+
+Private Sub imgLucifer_Click()
+
+imgLucifer.Enabled = False
+
+Counter = Counter + 1
+
+If player1 = True Then
+
+    player1 = False
+    player1Lucifer = True
+    lblPersona1.Caption = "Lucifer"
+    lblPersona1.BackColor = &H8080FF
+    lblPlayer1.BackColor = vbWhite
+    lblPlayer2.BackColor = vbYellow
+    lblPersona1.Visible = True
+    player2 = True
+
+ElseIf player1 = False Then
+
+    player2Lucifer = True
+    lblPersona2.Caption = "Lucifer"
+    lblPersona2.Visible = True
+    lblPersona2.BackColor = &H8080FF
+    imgMetatron.Enabled = False
+    imgJackFrost.Enabled = False
+    tmrDelay.Enabled = True
+
+End If
+
+End Sub
+
+Private Sub imgLucifer_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+Call VisibleP
+lblName.BackColor = &H8080FF
+lblName.Caption = "Lucifer" & "?"
+
+End Sub
+
+Private Sub imgMetatron_Click()
+
+imgMetatron.Enabled = False
+
+If player1 = True Then
+
+    player1 = False
+    player1Metatron = True
+    lblPersona1.Caption = "Metatron"
+    lblPersona1.BackColor = &HFFFF&
+    lblPersona1.Visible = True
+    lblPlayer1.BackColor = vbWhite
+    lblPlayer2.BackColor = vbYellow
+    player2 = True
+
+ElseIf player1 = False Then
+
+    player2Metatron = True
+    lblPersona2.Caption = "Metatron"
+    lblPersona2.Visible = True
+    lblPersona2.BackColor = &HFFFF&
+    imgLucifer.Enabled = False
+    imgJackFrost.Enabled = False
+    tmrDelay.Enabled = True
+
+End If
+
+End Sub
+
+Private Sub imgMetatron_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+Call VisibleP
+lblName.BackColor = &HFFFF&
+lblName.Caption = "Metatron" & "?"
+
+End Sub
+
+Private Sub lblBack_Click()
+
+Me.Hide
+frmMenu.Show
+
+End Sub
+
+Private Sub tmrDelay_Timer()
+
+Me.Hide
+frmRealMultiplayer.Show
+tmrDelay.Enabled = False
+
+End Sub

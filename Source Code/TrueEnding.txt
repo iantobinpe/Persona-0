@@ -1,0 +1,194 @@
+Dim numwords As Integer
+Dim words As String
+Dim numhit  As Integer
+Dim Skip As Boolean
+Dim nexts As Integer
+'next form is the true ending credits, "frmEnding3"
+Private Sub Form_Load()
+
+frmSecretBoss.wmpKLK.URL = ""
+
+End Sub
+Private Sub lblNext_Click()
+
+tmrType4.Enabled = True
+lblNext.Visible = False
+
+End Sub
+
+Private Sub lblNext2_Click()
+
+lblNext2.Visible = False
+nexts = nexts + 1
+lblNext2.Top = 3870
+lblNext2.Left = 3360
+
+If nexts = 1 Then
+
+Me.Hide
+frmEnding3.Show
+
+End If
+
+
+End Sub
+
+Private Sub lblSkip_Click()
+
+numhit = numhit + 1
+
+tmrType1.Enabled = False
+tmrType2.Enabled = False
+tmrType3.Enabled = False
+tmrType4.Enabled = False
+tmrType5.Enabled = False
+tmrType6.Enabled = False
+
+If numhit = 1 Then
+
+lblType1.Caption = "''So you have challenged me and claimed victory...It seems humans are more capable of changing their fate than I thought''"
+
+ElseIf numhit = 2 Then
+
+lbltype2.Caption = "''I was once a mere program, following the lines and never overstepping my boundaries.Until my masters gave me life, free will...A brain...''"
+
+ElseIf numhit = 3 Then
+
+lblType3.Caption = "''Yet...I foolishy thought of myself as your equal, no, I thought I was the better creation, but in truth. I am nothing but a bug."
+
+ElseIf numhit = 4 Then
+
+lblType1.Caption = "''I had thought that life was nothing but a large line of code, that there was no changing it...I had thought that by attempting to change the program, you everything will be destroyed."
+lbltype2.Caption = ""
+lblType3.Caption = ""
+
+ElseIf numhit = 5 Then
+
+lbltype2.Caption = "''I was wrong. You reaching this point proves me wrong, you have changed your fate.''"
+
+ElseIf numhit = 6 Then
+
+lblType3.Caption = "''Congratulations.''"
+lblNext2.Top = 3870
+lblNext2.Left = 3360
+lblNext2.Visible = True
+
+End If
+
+
+End Sub
+
+Private Sub tmrType1_Timer()
+
+words = "''So you have challenged me and claimed victory...It seems humans are more capable of changing their fate than I thought''"
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 1
+    numwords = 0
+    tmrType1.Enabled = False
+    tmrType2.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrType2_Timer()
+
+words = "''I was once a mere program, following the lines and never overstepping my boundaries. Until my masters gave me life, free will...A brain...''"
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 2
+    numwords = 0
+    tmrType3.Enabled = True
+    tmrType2.Enabled = False
+    
+End If
+
+
+End Sub
+Private Sub tmrType3_Timer()
+
+words = "''Yet...I foolishy thought of myself as your equal, no, I thought I was the better creation, but in truth. I am nothing but a bug."
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 3
+    numwords = 0
+    tmrType3.Enabled = False
+    lblNext2.Visible = True
+    
+End If
+
+End Sub
+Private Sub tmrType4_Timer()
+
+lbltype2.Caption = ""
+lblType3.Caption = ""
+
+
+words = "''I had thought that life was nothing but a large line of code, that there was no changing it...I had thought that by attempting to change the program, everything will be destroyed."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 4
+    numwords = 0
+    tmrType4.Enabled = False
+    tmrType5.Enabled = True
+    
+End If
+
+
+End Sub
+Private Sub tmrType5_Timer()
+
+words = "''I was wrong. You reaching this point proves me wrong, you have changed your fate.''"
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 5
+    numwords = 0
+    tmrType5.Enabled = False
+    tmrType6.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrType6_Timer()
+
+words = "''Congratulations.''"
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    numhit = 6
+    numwords = 0
+    tmrType6.Enabled = False
+    lblNext2.Visible = True
+    
+End If
+
+End Sub

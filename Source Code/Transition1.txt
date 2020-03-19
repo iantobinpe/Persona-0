@@ -1,0 +1,181 @@
+Dim numwords As Integer
+Dim words As String
+Dim numhit  As Integer
+Dim Skip As Boolean
+Private Sub lblNext_Click()
+
+tmrType4.Enabled = True
+lblNext.Visible = False
+
+End Sub
+Private Sub lblNext2_Click()
+
+Me.Hide
+frmLevel3.Show
+
+End Sub
+
+Private Sub lblSkip_Click()
+
+numhit = numhit + 1
+
+tmrType1.Enabled = False
+tmrType2.Enabled = False
+tmrType3.Enabled = False
+tmrType4.Enabled = False
+tmrType5.Enabled = False
+tmrType6.Enabled = False
+tmrType7.Enabled = False
+
+If numhit = 1 Then
+
+lblType1.Caption = "After defeating the being known as Metatron, the Mysterious Snake pushed me forward..."
+
+ElseIf numhit = 2 Then
+
+lbltype2.Caption = "We traversed through the maze for what seemed like hours, but I had no choice but to push forward."
+
+ElseIf numhit = 3 Then
+
+lblType3.Caption = "Who am I...?"
+
+ElseIf numhit = 4 Then
+
+lblType1.Caption = "The Snake said that we had made it to our destination. It was a large staircase leading high up into the sky."
+lbltype2.Caption = ""
+lblType3.Caption = ""
+
+
+
+ElseIf numhit = 5 Then
+
+lbltype2.Caption = "As we climbed up the stairs, the snake was acting strange...Was it...Laughing?"
+
+ElseIf numhit = 6 Then
+
+lblType3.Caption = "We finally reached the end of the staircase. There was a large, golden gate."
+
+ElseIf numhit = 7 Then
+
+lblType4.Caption = "Was this...Heaven?"
+lblNext2.Visible = True
+
+End If
+
+
+End Sub
+
+Private Sub tmrType1_Timer()
+
+words = "After defeating the being known as Metatron, the Mysterious Snake pushed me forward..."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType1.Enabled = False
+    tmrType2.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrType2_Timer()
+
+words = "We traversed through the maze for what seemed like hours, but I had no choice but to push forward."
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType3.Enabled = True
+    tmrType2.Enabled = False
+    
+End If
+
+
+End Sub
+Private Sub tmrType3_Timer()
+
+words = "Who am I...?"
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType3.Enabled = False
+    lblNext.Visible = True
+    
+End If
+
+End Sub
+Private Sub tmrType4_Timer()
+
+lbltype2.Caption = ""
+lblType3.Caption = ""
+lblType4.Caption = ""
+
+words = "The Snake said that we had made it to our destination. It was a large staircase leading high up into the sky."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType4.Enabled = False
+    tmrType5.Enabled = True
+    
+End If
+
+
+End Sub
+Private Sub tmrType5_Timer()
+
+words = "As we climbed up the stairs, the snake was acting strange...Was it...Laughing?"
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType5.Enabled = False
+    tmrType6.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrType6_Timer()
+
+words = "We finally reached the end of the staircase. There was a large, golden gate."
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType6.Enabled = False
+    tmrType7.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrType7_Timer()
+
+words = "Was this...Heaven?"
+numwords = numwords + 1
+
+lblType4.Caption = Mid(words, 1, numwords)

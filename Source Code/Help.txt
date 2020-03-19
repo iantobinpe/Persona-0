@@ -1,0 +1,30 @@
+Dim a As Integer
+
+Private Sub lblBack_Click()
+
+Me.Hide
+frmMenu.Show
+
+
+End Sub
+
+Private Sub lblNext_Click()
+
+a = a + 1
+
+If a = 1 Then
+    
+    lblButtons.Caption = "P"
+    lblCntrls.Caption = "Press this button to bring up the menu."
+    
+ElseIf a = 2 Then
+    
+    lblButtons.Caption = "MB1"
+    lblCntrls.Caption = "Use Left click to interact with menus/objects"
+    a = 0
+    
+    
+End If
+
+
+End Sub

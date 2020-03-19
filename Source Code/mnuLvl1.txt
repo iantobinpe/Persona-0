@@ -1,0 +1,1086 @@
+Dim words As String
+
+Dim playMusic As Boolean
+Dim YourTurn As Boolean
+Dim EnemyTurn As Boolean
+Dim potion1 As Boolean
+Dim potion2 As Boolean
+Dim numItemClick As Boolean
+Dim numSkillsClick As Boolean
+Dim EnemyNull As Boolean
+Dim enemyWeak As Boolean
+Dim weak As Boolean
+Dim PotionGone As Boolean
+Dim YouWin As Boolean
+Dim YouLose As Boolean
+
+Dim HitCount As Integer
+Dim v As Integer
+Dim EnHP As Integer
+Dim nexts As Integer
+Dim youHp As Integer
+Dim YouSP As Integer
+Dim NumIt As Integer
+Dim numwords As Integer
+Dim rndattack As Integer
+Dim numSkills As Integer
+Dim instaKill As Integer
+Dim rndEnemyAttack As Integer
+Private Sub cmdAttack_Click()
+
+imgYourTurn.Visible = False
+Randomize
+numwords = 0
+tmrMakeYourMove.Enabled = False
+rndattack = Rnd * 14 + 1
+rndEnemyAttack = Rnd * 5 + 25
+
+
+For X = 0 To 5
+        
+    lblSkills(X).Visible = False
+        
+Next X
+
+
+lblGui.Visible = False
+NumIt = 0
+numSkills = 0
+lblStuff.Visible = False
+lblInfo.Visible = False
+
+lblPotion1.Visible = False
+lblPotion2.Visible = False
+
+
+If EnemyTurn = False Then
+
+    If YourTurn = True Then
+        
+        tmrEnemySystem.Enabled = False
+        tmrYourTurn.Enabled = False
+        tmrMoveHit.Enabled = True
+        tmrSystem.Enabled = True
+        
+            Call enablePlayerMoves
+            Call stopwords
+        
+        
+        EnHP = EnHP - rndattack
+        lblDamage.Caption = EnHP
+        YourTurn = False
+        EnemyTurn = True
+        
+    End If
+
+Call DisablePlayermoves
+
+End If
+
+End Sub
+Private Sub cmdItems_Click()
+
+If PotionGone = True Then
+    lblPotion2.Top = lblPotion1.Top
+End If
+
+numSkills = 0
+lblStuff.Visible = False
+lblInfo.Visible = False
+
+For X = 0 To 5
+        
+    lblSkills(X).Visible = False
+        
+Next X
+
+NumIt = NumIt + 1
+lblGui.Visible = True
+
+If NumIt = 2 Then
+
+    numItemClick = True
+    NumIt = 0
+
+End If
+
+If NumIt = 1 Then
+
+    numItemClick = False
+    
+End If
+
+
+If numItemClick = False Then
+
+    If potion1 = False Then
+    
+        lblPotion1.Visible = True
+        
+    End If
+    
+
+    If potion2 = False Then
+
+        lblPotion2.Visible = True
+        
+    End If
+
+Else
+
+    lblGui.Visible = False
+    lblPotion1.Visible = False
+    lblPotion2.Visible = False
+    
+End If
+
+End Sub
+
+Private Sub cmdQuit_Click()
+
+Me.Hide
+frmTransition1.Show
+Call ResetForm
+
+End Sub
+
+Private Sub cmdRestart_Click()
+
+playMusic = True
+cmdQuit.Visible = False
+Call ResetForm
+
+End Sub
+
+Private Sub cmdSkills_Click()
+
+lblStuff.Visible = False
+lblPotion1.Visible = False
+lblPotion2.Visible = False
+NumIt = 0
+numSkills = numSkills + 1
+
+If numSkills = 2 Then
+
+    numSkillsClick = True
+    numSkills = 0
+
+End If
+
+If numSkills = 1 Then
+    
+    lblInfo.Visible = True
+    numSkillsClick = False
+    lblStuff.Visible = True
+    lblGui.Visible = True
+    
+End If
+
+If numSkillsClick = False Then
+
+    For X = 0 To 5
+        
+        lblSkills(X).Visible = True
+        
+    Next X
+
+Else
+    
+    lblInfo.Visible = False
+
+    For X = 0 To 5
+        
+        lblSkills(X).Visible = False
+        
+    Next X
+    lblGui.Visible = False
+
+End If
+
+End Sub
+Private Sub Form_Load()
+
+wmpSFX.settings.volume = 50
+frmMenu.wmvMenu.settings.volume = 20
+v = Rnd * 20 + 1
+EnemyTurn = False
+nexts = 0
+words = "We meet again...Have you come to your senses?"
+EnHP = 250
+youHp = 150
+YouSP = 100
+
+End Sub
+Private Sub imgNext_Click()
+
+nexts = nexts + 1
+imgNext.Visible = False
+
+If nexts = 1 Then
+    
+    lblName.Caption = "Protagonist"
+    tmrWords2.Enabled = True
+    
+ElseIf nexts = 2 Then
+    
+    lblName.Caption = "????"
+    tmrWords3.Enabled = True
+    
+ElseIf nexts = 3 Then
+    
+    lblName.Caption = "Metatron"
+    tmrWords4.Enabled = True
+    imgNext.Visible = False
+    
+    
+ElseIf nexts = 4 Then
+
+    lblName.Caption = "System"
+    tmrWords5.Enabled = True
+    imgMetatron.Picture = imgmetatronHit.Picture
+    tmrMoveHit.Enabled = True
+    imgNext.Visible = False
+
+ElseIf nexts = 5 Then
+
+    tmrWords6.Enabled = True
+    
+ElseIf nexts = 6 Then
+    
+    lblName.Caption = "System:"
+    lblBorder.Visible = True
+    imgYourTurn.Visible = True
+    tmrYourTurn.Enabled = True
+    tmrMakeYourMove.Enabled = True
+    lblstatHp.Visible = True
+    lblBoss.Visible = True
+    lblstatHp.Caption = "HP:  " & youHp
+    lblstatSP.Caption = "SP:  " & YouSP
+    YourTurn = True
+    imgQuestion.Visible = True
+    Call enablePlayerMoves
+
+ElseIf nexts = 7 Then
+    
+    lblName.Caption = "System"
+    imgMetatron.Visible = False
+    imgNext.Visible = False
+    tmrWords8.Enabled = True
+    
+ElseIf nexts = 8 Then
+
+    lblName.Caption = "????"
+    tmrWords9.Enabled = True
+    imgNext.Visible = False
+    
+ElseIf nexts = 9 Then
+
+    Me.Hide
+    frmTransition1.Show
+    
+End If
+
+
+End Sub
+Private Sub TmrUrturn_Timer()
+
+imgYourTurn.Left = imgYourTurn.Left + 60
+
+End Sub
+Private Sub tmrCheck_Timer()
+
+If YourTurn = False Then
+
+    tmrEnemyTurn.Enabled = True
+    TmrEnemyAttack.Enabled = True
+    
+End If
+
+End Sub
+Private Sub imgQuestion_Click()
+
+MsgBox "You will have a variety of new skills to choose from with Jack Frost equiped. However, they will cost SP and some skills work better than others. Find the element the enemy is weak to and avoid it's strengths."
+
+End Sub
+
+Private Sub lblPotion1_Click()
+
+If youHp < 150 Then
+
+youHp = 150
+lblstatHp.Caption = "HP:" & youHp
+potion1 = True
+lblPotion2.Top = lblPotion1.Top
+lblPotion1.Visible = False
+PotionGone = True
+Else
+
+MsgBox "You have full HP."
+
+End If
+
+End Sub
+Private Sub lblPotion2_Click()
+
+If YouSP < 100 Then
+
+    YouSP = 100
+    lblstatSP.Caption = "SP:  " & YouSP
+    potion2 = True
+    lblPotion2.Visible = False
+    
+
+Else
+
+MsgBox "You have full SP."
+
+End If
+
+End Sub
+Private Sub lblSkills_Click(Index As Integer)
+
+imgYourTurn.Visible = False
+lblBorder.Visible = False
+lblStuff.Visible = False
+lblGui.Visible = False
+
+If YouSP > 0 Then
+    
+    Randomize
+    numwords = 0
+    tmrMakeYourMove.Enabled = False
+    rndEnemyAttack = Rnd * 5 + 25
+    lblInfo.Visible = False
+    
+    If lblSkills(Index) = lblSkills(4) Then
+        EnemyNull = True
+    End If
+    
+    If EnemyTurn = False Then
+    
+        If YourTurn = True Then
+                
+            If EnemyNull = False Then
+                
+                If lblSkills(Index) <> lblSkills(5) Then
+                    
+                    Randomize
+                    YouSP = YouSP - 5
+                    lblstatSP.Caption = "SP:" & YouSP
+                    rndattack = Rnd * 5 + 20
+                    tmrEnemySystem.Enabled = False
+                    tmrYourTurn.Enabled = False
+                    tmrMoveHit.Enabled = True
+                    tmrSystem.Enabled = True
+                    
+                    
+                    Call enablePlayerMoves
+                    Call stopwords
+            
+        
+                    EnHP = EnHP - rndattack
+                    lblDamage.Caption = EnHP
+           
+                    YourTurn = False
+                    EnemyTurn = True
+                    
+                Else
+                    
+                    Randomize
+                    instaKill = v
+                    
+                    weak = True
+                    
+                    If weak = True Then
+                    
+                        tmrSystemWeak.Enabled = True
+                        
+                    End If
+                    
+                    If instaKill = 8 Then
+                        rndattack = EnHP
+                    End If
+                   
+                    YouSP = YouSP - 10
+                    lblstatSP.Caption = "SP:  " & YouSP
+                    rndattack = Rnd * 10 + 25
+                    tmrEnemySystem.Enabled = False
+                    tmrYourTurn.Enabled = False
+                    tmrMoveHit.Enabled = True
+            
+                    Call enablePlayerMoves
+                    Call stopwords
+            
+        
+                    EnHP = EnHP - rndattack
+                    lblDamage.Caption = EnHP
+           
+                    YourTurn = False
+                    EnemyTurn = True
+                    
+                End If
+            
+            
+                
+                For X = 0 To 5
+            
+                    lblSkills(X).Visible = False
+                    numSkills = 0
+                    Call DisablePlayermoves
+                
+                Next X
+            
+        End If
+        
+    End If
+    
+End If
+
+If EnemyNull = True Then
+        
+
+        YouSP = YouSP - 10
+        rndattack = 0
+        lblstatSP.Caption = "SP:" & YouSP
+        tmrEnemySystem.Enabled = False
+        tmrYourTurn.Enabled = False
+        tmrMoveHit.Enabled = True
+        tmrSystemNull.Enabled = True
+        
+        EnemyNull = False
+        YourTurn = False
+        EnemyTurn = True
+        
+        Call enablePlayerMoves
+        Call stopwords
+    
+        For X = 0 To 5
+            
+            lblSkills(X).Visible = False
+            numSkills = 0
+            Call DisablePlayermoves
+                
+        Next X
+
+    End If
+
+Else
+            
+    MsgBox "You are out of SP"
+
+End If
+
+End Sub
+Private Sub lblSkills_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+
+Select Case Index
+
+    Case 0
+        
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light Wind damage.               Cost: 5SP"
+    
+    Case 1
+    
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light Fire damage.               Cost: 5SP"
+    
+    Case 2
+    
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light Electric damage.            Cost: 5SP"
+    
+    
+    Case 3
+    
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light Ice damage. Cost: 5SP"
+    
+    Case 4
+    
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light Bless damage, small chance to instantly kill.      Cost: 10SP"
+    
+    Case 5
+        
+        lblStuff.Visible = True
+        lblStuff.Caption = "Deals light curse damage, small chance to instantly kill.      Cost: 10SP"
+    
+End Select
+
+
+
+End Sub
+Private Sub tmrCheckForLoss_Timer()
+
+If youHp <= 0 Then
+
+    tmrLose.Enabled = True
+    Call DisablePlayermoves
+    YouLose = True
+    tmrCheckforLoss.Enabled = False
+    lblType.Caption = "You have lost consciousness."
+    lblType.Caption = "System"
+    
+End If
+
+End Sub
+
+Private Sub TmrCheckForWin_Timer()
+
+If EnHP <= 0 Then
+
+    tmrWin.Enabled = True
+    Call DisablePlayermoves
+    YouWin = True
+    tmrCheckForWin.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrDelay_Timer()
+
+imgEnemyTurn.Visible = True
+lblBorder.Visible = True
+tmrEnemyTurn.Enabled = True
+TmrEnemyAttack.Enabled = True
+tmrDelay.Enabled = False
+Call stopwords
+
+End Sub
+Private Sub tmrDelayEnemy_Timer()
+
+TmrEnemyAttack.Enabled = False
+tmrEnemySystem.Enabled = True
+tmrDelayEnemy.Enabled = False
+Call stopwords
+
+End Sub
+
+Private Sub tmrEnemyAttack_Timer()
+
+words = "Metatron is thinking..."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+    
+    imgNext.Visible = False
+    numwords = 0
+    tmrDelayEnemy = True
+    TmrEnemyAttack.Enabled = False
+    Call stopwords
+    
+End If
+
+
+End Sub
+Private Sub tmrEnemySystem_Timer()
+
+lblName.Caption = "System"
+words = "Metatron uses basic attack and deals " & rndEnemyAttack & " damage"
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 7 Then
+    
+    
+    tmrYouHit.Enabled = True
+    youHp = youHp - rndEnemyAttack
+    lblstatHp.Caption = "HP:  " & youHp
+    YourTurn = True
+    EnemyTurn = False
+
+Call enablePlayerMoves
+Call stopwords
+
+    imgYourTurn.Visible = True
+    lblBorder.Visible = True
+    tmrYourTurn.Enabled = True
+    tmrMakeYourMove.Enabled = True
+    tmrEnemySystem.Enabled = False
+
+End If
+
+End Sub
+Private Sub tmrEnemyTurn_Timer()
+
+YourTurn = True
+imgEnemyTurn.Visible = False
+lblBorder.Visible = False
+
+End Sub
+
+Private Sub tmrLose_Timer()
+
+If YouLose = True Then
+
+    Call stopwords
+    
+    cmdRestart.Visible = True
+    cmdQuit.Visible = True
+    tmrSystem.Enabled = False
+    tmrEnemySystem.Enabled = False
+    tmrSystemNull.Enabled = False
+    tmrSystemWeak.Enabled = False
+    tmrDelay.Enabled = False
+    tmrDelayEnemy.Enabled = False
+    
+    tmrMove.Enabled = False
+    tmrMove2.Enabled = False
+    
+    lblstatHp.Caption = "HP:  0"
+    EnHP = 250
+    youHp = 150
+    
+    tmrCheckforLoss = False
+    tmrLose.Enabled = False
+
+End If
+
+End Sub
+
+Private Sub tmrMakeYourMove_Timer()
+
+words = "It's your turn."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+    
+    numwords = 0
+    imgNext.Visible = False
+    EnemyTurn = False
+    YourTurn = True
+    Call stopwords
+    tmrMakeYourMove.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrPlayMusic_Timer()
+
+If playMusic = True Then
+
+    tmrPlayMusic.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrSystem_Timer()
+
+words = "You dealt " & rndattack & " damage."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+
+ 
+    numwords = 0
+    Call stopwords
+    EnemyTurn = True
+    YourTurn = False
+    tmrDelay.Enabled = True
+    tmrSystem.Enabled = False
+    
+    If YouWin = True Then
+        tmrWords7.Enabled = True
+    End If
+    
+    
+    
+    If EnemyNull = True Then
+    
+        tmrSystemNull.Enabled = True
+        EnemyNull = False
+        
+    End If
+    
+End If
+
+End Sub
+Private Sub tmrSystemNull_Timer()
+
+words = "Metatron nullified Hama!"
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    Call stopwords
+    EnemyTurn = True
+    YourTurn = False
+    tmrDelay.Enabled = True
+    tmrSystemNull.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrSystemWeak_Timer()
+
+words = "Metatron is weak to Mudo, you dealt " & rndattack & " heavy damage!"
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    Call stopwords
+    EnemyTurn = True
+    YourTurn = False
+    tmrDelay.Enabled = True
+    tmrSystemWeak.Enabled = False
+    weak = False
+    
+End If
+
+
+End Sub
+Private Sub tmrWin_Timer()
+
+
+If YouWin = True Then
+    
+    imgMetatron.Picture = imgmetatronHit.Picture
+    Call stopwords
+    
+    tmrWords7.Enabled = True
+    tmrSystem.Enabled = False
+    tmrEnemySystem.Enabled = False
+    tmrSystemNull.Enabled = False
+    tmrSystemWeak.Enabled = False
+    tmrDelay.Enabled = False
+    tmrDelayEnemy.Enabled = False
+    
+    
+    tmrMove.Enabled = False
+    tmrMove2.Enabled = False
+    lblDamage.Caption = "0"
+    
+    EnHP = 250
+    
+    tmrCheckForWin = False
+    tmrWin.Enabled = False
+
+
+End If
+
+
+End Sub
+Private Sub tmrWords6_Timer()
+
+words = "You leave me no choice...Come let me rid of your unfaithful shadow."
+numwords = numwords + 1
+lblName.Caption = "Metatron"
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    Call stopwords
+    tmrWords6.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrMove_Timer()
+
+imgMetatron.Top = imgMetatron.Top - 30
+
+If imgMetatron.Top <= 360 Then
+
+    tmrMove.Enabled = False
+    tmrMove2.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrMove2_Timer()
+
+imgMetatron.Top = imgMetatron.Top + 30
+
+If imgMetatron.Top >= 600 Then
+
+    tmrMove.Enabled = True
+    tmrMove2.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrMoveHit_Timer()
+
+imgMetatron.Left = imgMetatron.Left - 200
+
+If imgMetatron.Left <= 2000 Then
+    
+    imgMetatron.Picture = imgmetatronHit.Picture
+    tmrMoveHit.Enabled = False
+    tmrMoveHit2.Enabled = True
+    
+End If
+
+End Sub
+Private Sub tmrMoveHit2_Timer()
+
+imgMetatron.Left = imgMetatron.Left + 200
+
+If imgMetatron.Left >= 2300 Then
+
+tmrMoveHit.Enabled = False
+tmrMoveHit2.Enabled = False
+imgMetatron.Picture = imgMetatronnormal.Picture
+
+End If
+
+End Sub
+Private Sub tmrWords_Timer()
+
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    Call stopwords
+    tmrWords.Enabled = False
+    
+End If
+
+
+End Sub
+Private Sub tmrWords2_Timer()
+
+words = "What?...I have no idea who you are."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords2.Enabled = False
+    Call stopwords
+    
+End If
+
+End Sub
+Private Sub tmrWords3_Timer()
+
+words = "Don't listen to him...Strike now before he gets you!"
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords3.Enabled = False
+     Call stopwords
+     
+End If
+
+End Sub
+Private Sub tmrWords4_Timer()
+
+words = "Don't make me fight you, I am not your enemy!"
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords4.Enabled = False
+     Call stopwords
+     
+End If
+
+End Sub
+Private Sub tmrWords5_Timer()
+
+words = "???? Hits METATRON for 0 damage."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 10 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    tmrWords5.Enabled = False
+    Call stopwords
+    
+End If
+
+End Sub
+
+Private Sub tmrWords7_Timer()
+
+imgMetatron.Picture = imgmetatronHit.Picture
+words = "Agh...You'll regret this..."
+numwords = numwords + 1
+lblName.Caption = "Metatron"
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    Call stopwords
+    tmrWords7.Enabled = False
+    
+End If
+
+End Sub
+Private Sub tmrWords8_Timer()
+
+words = "You have bested Metatron, the path has now been cleared."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+
+    imgNext.Visible = True
+    numwords = 0
+    Call stopwords
+    tmrWords8.Enabled = False
+    
+End If
+
+End Sub
+
+Private Sub tmrWords9_Timer()
+
+words = "Hmmm...Things are progressing smoothly...Let us proceed."
+numwords = numwords + 1
+
+lblType.Caption = Mid(words, 1, numwords)
+
+If numwords = Len(words) + 1 Then
+    
+    imgNext.Visible = True
+    numwords = 0
+    Call stopwords
+    tmrWords9.Enabled = False
+    
+End If
+
+
+End Sub
+
+Private Sub tmrYouHit_Timer()
+
+imgLvl(2).Left = imgLvl(2).Left - 50
+
+If imgLvl(2).Left <= -50 Then
+
+    imgGui.Left = 0
+    tmrYouHit.Enabled = False
+    tmrYouHit2.Enabled = True
+    
+    
+End If
+
+End Sub
+
+Private Sub tmrYouHit2_Timer()
+
+imgLvl(2).Left = imgLvl(2).Left + 50
+
+If imgLvl(2).Left >= 50 Then
+    
+    imgGui.Left = 0
+    tmrYouHit.Enabled = False
+    tmrYouHit2.Enabled = False
+    
+    
+End If
+
+End Sub
+
+Private Sub tmrYourTurn_Timer()
+
+imgYourTurn.Visible = False
+lblBorder.Visible = False
+
+End Sub
+Public Sub enablePlayerMoves()
+
+cmdAttack.Enabled = True
+cmdSkills.Enabled = True
+cmdItems.Enabled = True
+
+End Sub
+Public Sub DisablePlayermoves()
+
+cmdAttack.Enabled = False
+cmdSkills.Enabled = False
+cmdItems.Enabled = False
+
+End Sub
+Public Sub stopwords()
+
+words = ""
+lblcaption = ""
+
+End Sub
+Public Sub ResetForm()
+
+Call stopwords
+Call enablePlayerMoves
+imgYourTurn.Visible = True
+lblBorder.Visible = True
+tmrYourTurn.Enabled = True
+tmrMakeYourMove.Enabled = True
+tmrMove.Enabled = True
+youHp = 150
+YouSP = 100
+EnHP = 250
+lblstatHp.Caption = "HP:  150"
+lblstatSP.Caption = "HP:  100"
+lblDamage.Caption = "250"
+lblPotion2.Top = 6600
+
+tmrWin.Enabled = False
+tmrLose.Enabled = False
+tmrCheckForWin.Enabled = True
+tmrCheckforLoss.Enabled = True
+tmrPlayMusic.Enabled = True
+
+YourTurn = True
+EnemyTurn = False
+potion1 = False
+potion2 = False
+numItemClick = False
+numSkillsClick = False
+EnemyNull = False
+enemyWeak = False
+weak = False
+PotionGone = False
+YouWin = False
+YouLose = False
+
+cmdRestart.Visible = False
+cmdQuit.Visible = False
+
+
+End Sub
+
+'after beating metatron have the "frmTransition1" come up

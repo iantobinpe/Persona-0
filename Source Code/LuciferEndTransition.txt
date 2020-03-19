@@ -1,0 +1,197 @@
+Dim numwords As Integer
+Dim words As String
+Dim numhit  As Integer
+Dim Skip As Boolean
+Dim numSkip As Integer
+Private Sub lblNext_Click()
+
+lblNext.Visible = False
+numhit = numhit + 1
+
+If numhit = 1 Then
+
+    lblNext.Top = 4080
+    lblNext.Left = 7440
+    lblType1.Caption = ""
+    lbltype2.Caption = ""
+    lblType3.Caption = ""
+    tmrType4.Enabled = True
+    
+ElseIf numhit = 2 Then
+
+Me.Hide
+frmNormalEnding.Show
+
+End If
+
+End Sub
+
+Private Sub lblSkip_Click()
+
+Skip = True
+numSkip = numSkip + 1
+
+If numSkip = 1 Then
+
+lblType1.Caption = "The Mysterious Snake revealed itself to be Lucifer, I defeated him and my memories returned. My name...is Sandalphon."
+
+ElseIf numSkip = 2 Then
+
+lbltype2.Caption = "Lucifer, once second in command in Heaven, betrayed his people and cast a spell that caused them to go insane, killing each other, in order to overthrow the order in Heaven and become a God..."
+
+ElseIf numSkip = 3 Then
+
+lblType3.Caption = "My Brother and I...Metatron and I...Were the last angels left. Until I fell into Lucifer's hands."
+
+ElseIf numSkip = 4 Then
+
+lblType1.Caption = "My brother, he used his remaining power in order to seal Lucifer and break the spell cast upon me."
+numhit = 1
+lbltype2.Caption = ""
+lblType3.Caption = ""
+
+ElseIf numSkip = 5 Then
+
+lbltype2.Caption = "I was manipulated by Lucifer, my own brother...His blood are on my hands, and the responsibility of Heaven thrust upon me."
+
+ElseIf numSkip = 6 Then
+
+lblType3.Caption = "Though my sins can never be pardoned...I promise you brother, I will never lose my way again."
+lblNext.Visible = True
+lblNext.Top = 4080
+lblNext.Left = 7440
+
+End If
+
+End Sub
+Private Sub tmrType1_Timer()
+
+If Skip = False Then
+
+words = "The Mysterious Snake revealed itself to be Lucifer, I defeated him and my memories returned. My name...is Sandalphon."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType1.Enabled = False
+    tmrType2.Enabled = True
+    
+End If
+
+End If
+
+End Sub
+Private Sub tmrType2_Timer()
+
+If Skip = False Then
+
+words = "Lucifer, once second in command in Heaven, betrayed his people and cast a spell that caused them to go insane, killing each other, in order to overthrow the order in Heaven and become a God..."
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType2.Enabled = False
+    tmrType3.Enabled = True
+    
+End If
+
+End If
+
+End Sub
+
+Private Sub tmrType3_Timer()
+
+If Skip = False Then
+
+words = "My..Brother and I...Metatron and I...Were the last angels left. Until I fell into Lucifers hands."
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+    
+    lblNext.Visible = True
+    numwords = 0
+    tmrType3.Enabled = False
+    
+End If
+
+End If
+
+End Sub
+Private Sub tmrType4_Timer()
+
+If Skip = False Then
+
+words = "My brother, he used his remaining power in order to seal Lucifer and break the spell cast upon me."
+numwords = numwords + 1
+
+lblType1.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType4.Enabled = False
+    tmrType5.Enabled = True
+    
+End If
+
+End If
+
+
+End Sub
+Private Sub tmrType5_Timer()
+
+If Skip = False Then
+
+words = "I was manipulated by Lucifer, my own brother...His blood are on my hands, and the responsibility of Heaven thrust upon me."
+numwords = numwords + 1
+
+lbltype2.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType5.Enabled = False
+    tmrType6.Enabled = True
+    
+End If
+
+End If
+
+
+End Sub
+Private Sub tmrType6_Timer()
+
+If Skip = False Then
+
+words = "Though my sins can never be pardoned...I promise you brother, I will never lose my way again."
+numwords = numwords + 1
+
+lblType3.Caption = Mid(words, 1, numwords)
+
+
+If numwords = Len(words) + 10 Then
+
+    numwords = 0
+    tmrType6.Enabled = False
+    lblNext.Visible = True
+'    tmrType7.Enabled = True
+    
+End If
+
+End If
+
+
+End Sub
